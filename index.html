@@ -1,13 +1,53 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-CA">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>AVRA — Growth that flows. Marketing studio in Vancouver, BC</title>
+    <meta
+      name="description"
+      content="A Vancouver marketing studio for brands ready to rise. Brand, websites and performance marketing, without the noise."
+    />
+    <meta name="theme-color" content="#F2F1EE" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>avra-codebase</title>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AVRA" />
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:title" content="AVRA — Growth that flows. Marketing studio in Vancouver, BC" />
+    <meta
+      property="og:description"
+      content="A Vancouver marketing studio for brands ready to rise. Brand, websites and performance marketing, without the noise."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AVRA — Growth that flows." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!--app-head-->
+
+    <!-- Enable motion only when JS runs and the visitor hasn't asked for reduced motion.
+         Safety net: if the app never boots, motion classes are removed so nothing stays hidden. -->
+    <script>
+      ;(function () {
+        var d = document.documentElement
+        try {
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            d.classList.add('motion-ok')
+            setTimeout(function () {
+              if (!window.__avraReady) d.classList.remove('motion-ok')
+            }, 4000)
+          }
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

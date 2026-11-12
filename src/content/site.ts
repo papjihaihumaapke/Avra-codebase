@@ -75,13 +75,87 @@ export const processSteps = [
   { index: '04', title: 'Grow', body: 'We test, report plainly and refine, month after month.' },
 ] as const
 
-/** Placeholders only. Replace with real, approved case studies. */
+/** Selected work. Images live in /public/work. */
 export const work = [
-  { id: 'a', clientType: '[Client type]', title: '[Project title]', result: '[Result]', art: 1 },
-  { id: 'b', clientType: '[Client type]', title: '[Project title]', result: '[Result]', art: 2 },
-  { id: 'c', clientType: '[Client type]', title: '[Project title]', result: '[Result]', art: 3 },
-  { id: 'd', clientType: '[Client type]', title: '[Project title]', result: '[Result]', art: 4 },
+  {
+    id: 'go-green-mowing',
+    title: 'Go Green Mowing',
+    clientType: 'Lawn care company',
+    services: 'Website · Mascot logo',
+    image: '/work/go-green-mowing.webp',
+    alt: 'Go Green Mowing website homepage with a green mascot and the headline “Bringing Nature’s Beauty To Your Backyard”',
+    w: 1440,
+    h: 900,
+    url: 'https://gogreenmowing.ca',
+  },
+  {
+    id: 'little-anna',
+    title: 'Little Anna',
+    clientType: 'Cakes & pastries bakery',
+    services: 'Rebrand · Packaging · Website',
+    image: '/work/little-anna.webp',
+    alt: 'Little Anna bakery website homepage with the headline “A little sweetness for every moment.”',
+    w: 1440,
+    h: 900,
+    url: 'https://littleanna.vercel.app',
+  },
+  {
+    id: 'fashion-ecommerce',
+    title: 'Fashion e-commerce',
+    clientType: 'Fashion retail',
+    services: 'E-commerce website',
+    image: '/work/fashion-ecommerce.webp',
+    alt: 'Fashion e-commerce product page for a water-repellent hooded windbreaker',
+    w: 1440,
+    h: 900,
+    url: '',
+  },
+  {
+    id: 'desert-fox',
+    title: 'Desert Fox',
+    clientType: 'Festival desserts',
+    services: 'Logo suite · Apparel · Packaging',
+    image: '/work/desert-fox.webp',
+    alt: 'Desert Fox branded orange t-shirts and cap on sand',
+    w: 512,
+    h: 512,
+    url: '',
+  },
+  {
+    id: 'dunes-and-scents',
+    title: 'Dunes & Scents',
+    clientType: 'Fragrance house',
+    services: 'AI product imagery',
+    image: '/work/dunes-and-scents.webp',
+    alt: 'Five ornate Dunes & Scents perfume bottles on stone plinths',
+    w: 512,
+    h: 512,
+    url: '',
+  },
+  {
+    id: 'wall-canvas',
+    title: 'Wall Canvas',
+    clientType: 'Neon wall art',
+    services: 'Logo · Social ads',
+    image: '/work/wall-canvas.webp',
+    alt: 'Wall Canvas social ad: a man holding a “Good Vibes” neon sign, “Light your walls with Wall Canvas.”',
+    w: 512,
+    h: 512,
+    url: '',
+  },
 ] as const
+
+/** Brands we have worked with. Logos live in /public/clients. */
+export const clients = [
+  { name: 'Noon Minutes', logo: '/clients/noon-minutes.png', w: 70, h: 34 },
+  { name: 'Fit & Flex', logo: '/clients/fit-and-flex.png', w: 396, h: 244 },
+  { name: 'Go Green Mowing', logo: '/clients/go-green-mowing.png', w: 420, h: 394 },
+  { name: 'The Indian Club House', logo: '/clients/indian-club-house.png', w: 319, h: 320 },
+  { name: 'EZ Rentalz', logo: '/clients/ez-rentalz.png', w: 520, h: 63 },
+] as const
+
+/** Named without logos, shown as "and more". */
+export const moreClients = ['Little Anna', 'Desert Fox', 'Dunes & Scents', 'Wall Canvas'] as const
 
 export const whyPoints = [
   {
@@ -96,11 +170,6 @@ export const whyPoints = [
     title: 'Built for local businesses',
     body: 'We know the Vancouver market and size the work to small and mid-size budgets.',
   },
-] as const
-
-export const founders = [
-  { name: 'Hilal', role: '[Role]', bio: '[One-line bio]' },
-  { name: 'Arshil', role: '[Role]', bio: '[One-line bio]' },
 ] as const
 
 export const contactOptions = {

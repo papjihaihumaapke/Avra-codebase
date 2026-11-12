@@ -3,14 +3,14 @@ import { bookHref } from '../content/site'
 import { TLink } from './Transition'
 
 export function Logo({ className = '', inverse = false }: { className?: string; inverse?: boolean }) {
-  // Wordmark file lives at /public/brand/avra-wordmark.svg — replace it with the official one.
+  // Official wordmark from the AVRA logo kit (brand-assets/AVRA-Logo-Kit).
   return (
     <img
-      src="/brand/avra-wordmark.svg"
+      src={inverse ? '/brand/avra-wordmark-paper.svg' : '/brand/avra-wordmark.svg'}
       alt="AVRA"
-      width={290}
-      height={100}
-      className={`h-auto ${inverse ? 'invert' : ''} ${className}`}
+      width={542}
+      height={138}
+      className={`h-auto ${className}`}
       decoding="async"
     />
   )

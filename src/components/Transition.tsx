@@ -53,20 +53,20 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const go = useCallback(
     async (to: string) => {
       const url = new URL(to, window.location.href)
-      if (url.pathname === window.location.pathname) {
-        navigate(url.pathname + url.hash, { preventScrollReset: true })
+      if (url.pathname === window.location.pathname && url.search === window.location.search) {
+        navigate(url.pathname + url.search + url.hash, { preventScrollReset: true })
         if (url.hash) scrollToHash(url.hash, true)
         else window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
         return
       }
       const wipe = wipeRef.current
       if (!wipe || busy.current || !motionEnabled()) {
-        navigate(url.pathname + url.hash)
+        navigate(url.pathname + url.search + url.hash)
         return
       }
       busy.current = true
       await gsap.fromTo(wipe, { yPercent: 101 }, { yPercent: 0, duration: motion.durWipe, ease: motion.easeMove })
-      navigate(url.pathname + url.hash)
+      navigate(url.pathname + url.search + url.hash)
       await nextFrame()
       await gsap.to(wipe, { yPercent: -101, duration: motion.durWipe, ease: motion.easeMove })
       gsap.set(wipe, { yPercent: 101 })

@@ -57,9 +57,9 @@
   --hairline: 1px solid var(--color-shadow);
 
   /* ---- Motion: durations & stagger ---- */
-  --dur-reveal: 1100ms;
+  --dur-reveal: 900ms;
   --dur-hover: 250ms;
-  --dur-wipe: 520ms;
+  --dur-wipe: 340ms;
   --stagger: 50ms;            /* 40–60ms per line/word */
   --hover-lift: -6px;
 

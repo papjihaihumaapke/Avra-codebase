@@ -198,7 +198,6 @@
   z-index: 70;
   pointer-events: none;
   opacity: var(--grain-opacity);
-  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -330,13 +329,16 @@
   white-space: nowrap;
   will-change: transform;
 }
-.motion-ok .manifesto__word:nth-child(1) { top: 9%;  left: 0;   font-size: min(14vw, 20svh); }
-.motion-ok .manifesto__word:nth-child(2) { top: 25%; left: 20%; font-size: min(16vw, 23svh); }
-.motion-ok .manifesto__word:nth-child(3) { top: 42%; left: 6%;  font-size: min(21vw, 28svh); }
-.motion-ok .manifesto__word:nth-child(4) { top: 60%; left: 0;   font-size: min(24vw, 33svh); }
+.motion-ok .manifesto__word:nth-child(1) { top: 15%; left: var(--gutter);              font-size: min(14vw, 19svh); }
+.motion-ok .manifesto__word:nth-child(2) { top: 30%; left: calc(var(--gutter) + 18%); font-size: min(16vw, 22svh); }
+.motion-ok .manifesto__word:nth-child(3) { top: 46%; left: calc(var(--gutter) + 5%);  font-size: min(20vw, 27svh); }
+.motion-ok .manifesto__word:nth-child(4) { top: 63%; left: var(--gutter);              font-size: min(23vw, 31svh); }
+.motion-ok .manifesto__stage {
+  padding-block: calc(var(--nav-height) + 1.25rem) 0;
+}
 .motion-ok .manifesto__calm {
   position: absolute;
-  inset: 0;
+  inset: 0 var(--gutter);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -362,18 +364,73 @@
 }
 
 /* ==========================================================================
-   Process staircase line
+   Process staircase: treads (horizontal) + risers (vertical)
    ========================================================================== */
-.stair-path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
+.process {
+  --step: clamp(3rem, 6vw, 5.5rem);
 }
-.motion-ok [data-reveal] .stair-path {
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1800ms var(--ease-move) 100ms;
+.process-step {
+  margin-left: calc(var(--step-i) * 1.25rem);
 }
-.motion-ok [data-reveal].is-in .stair-path {
-  stroke-dashoffset: 0;
+.stair-tread,
+.stair-riser {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--color-graphite);
+}
+/* Mobile: a continuous vertical staircase — riser down, short tread across. */
+.stair-tread {
+  left: -1.25rem;
+  width: 1.25rem;
+  height: 1px;
+  transform-origin: left center;
+}
+.process-step:first-child .stair-tread {
+  display: none;
+}
+.stair-riser {
+  bottom: 0;
+  width: 1px;
+  transform-origin: center top;
+}
+@media (min-width: 1024px) {
+  .stair-tread {
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+  .process-step:first-child .stair-tread {
+    display: block;
+  }
+  .process-step {
+    margin-left: 0;
+    margin-top: calc((3 - var(--step-i)) * var(--step));
+  }
+  .stair-riser {
+    bottom: auto;
+    height: var(--step);
+  }
+  .process-step:first-child .stair-riser {
+    display: none;
+  }
+}
+@media (max-width: 1023.98px) {
+  .process-step {
+    --d: 0ms !important;
+  }
+}
+.motion-ok [data-reveal] .stair-tread {
+  transform: scaleX(0);
+  transition: transform 1000ms var(--ease-move) var(--d, 0ms);
+}
+.motion-ok [data-reveal] .stair-riser {
+  transform: scaleY(0);
+  transition: transform 700ms var(--ease-move) var(--d, 0ms);
+}
+.motion-ok [data-reveal].is-in .stair-tread,
+.motion-ok [data-reveal].is-in .stair-riser {
+  transform: none;
 }
 
 /* ==========================================================================

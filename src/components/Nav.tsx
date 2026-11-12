@@ -72,7 +72,7 @@ export function Nav() {
       </a>
       <nav aria-label="Primary" className="shell flex h-[var(--nav-height)] items-center justify-between gap-6">
         <TLink to="/" className="relative z-[61] shrink-0" aria-label="AVRA, home" onClick={close}>
-          <Logo className="w-[84px] md:w-[96px]" />
+          <Logo className="w-[96px] md:w-[112px]" />
         </TLink>
 
         <ul className="hidden items-center gap-8 lg:flex">

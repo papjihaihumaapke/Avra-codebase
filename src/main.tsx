@@ -1,10 +1,44 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import '@fontsource/inter-tight/latin-400.css'
+import '@fontsource/inter-tight/latin-500.css'
+import '@fontsource/inter-tight/latin-600.css'
+import '@fontsource/inter-tight/latin-700.css'
+import '@fontsource/inter-tight/latin-800.css'
+import '@fontsource/geist-mono/latin-400.css'
+import '@fontsource/geist-mono/latin-500.css'
 import './index.css'
-import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
+import { StrictMode } from 'react'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
+import { routeMeta } from './content/site'
+
+declare global {
+  interface Window {
+    __avraReady?: boolean
+  }
+}
+
+const container = document.getElementById('root')!
+const tree = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 )
+
+// Hydrate only when the prerendered HTML matches this URL; otherwise render fresh
+// (dev mode, or a host that served a fallback page).
+const path = window.location.pathname.replace(/\/+$/, '') || '/'
+const prerendered = container.dataset.route
+const matches = prerendered === path || (prerendered === '/404' && !(path in routeMeta))
+if (container.firstElementChild && matches) hydrateRoot(container, tree)
+else createRoot(container).render(tree)
+
+window.__avraReady = true
+
+// Recalculate scroll positions once webfonts settle (prevents pin offsets drifting).
+document.fonts?.ready.then(() => {
+  import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => ScrollTrigger.refresh())
+})
