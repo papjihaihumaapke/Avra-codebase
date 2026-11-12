@@ -1,0 +1,79 @@
+/* ==========================================================================
+   AVRA — Design tokens
+   The single source of truth for colour, type, spacing, radius and motion.
+   Tailwind utilities are generated from @theme (bg-paper, text-graphite,
+   font-mono, ease-reveal, rounded-md …). Motion values are also read by JS
+   (src/lib/motion.ts) so CSS and GSAP stay in sync.
+   ========================================================================== */
+
+@theme {
+  /* ---- Colour (exact brand values) ---- */
+  --color-paper: #f2f1ee;      /* main background */
+  --color-bone: #fafaf8;       /* cards, raised surfaces */
+  --color-shadow: #d9d8d4;     /* dividers, subtle fills */
+  --color-stone: #8a8a86;      /* secondary text on dark only */
+  --color-stone-ink: #5f5f5b;  /* small secondary text on light (AA) */
+  --color-graphite: #111111;   /* text, dark sections */
+  --color-signal: #d9372b;     /* accent, sparingly */
+  --color-on-signal: #ffffff;  /* text on Signal hover (AA 4.6:1; Paper is 4.1:1) */
+
+  /* ---- Type ---- */
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-mega: clamp(3.5rem, 12.6vw, 10rem);     /* hero, up to 160px */
+  --text-display: clamp(2.75rem, 8.4vw, 7.5rem);  /* section statements */
+  --text-headline: clamp(2rem, 5vw, 4.25rem);
+  --text-title: clamp(1.5rem, 2.6vw, 2.25rem);
+  --text-lead: clamp(1.125rem, 1.5vw, 1.375rem);
+  --text-label: 0.75rem;                          /* 12px mono labels */
+  --text-label-lg: 0.875rem;                      /* 14px mono labels */
+
+  --tracking-display: -0.04em;
+  --tracking-tight: -0.02em;
+  --tracking-label: 0.14em;
+
+  --leading-display: 0.95;
+  --leading-tight: 1;
+  --leading-body: 1.55;
+
+  /* ---- Radius (small only) ---- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* ---- Easing ---- */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);   /* ≈ expo.out */
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);    /* ≈ power3.inOut */
+}
+
+:root {
+  /* ---- Layout ---- */
+  --gutter: clamp(1rem, 4vw, 3.5rem);   /* page side margin (16px at 375) */
+  --grid-gap: clamp(0.75rem, 2vw, 1.5rem);
+  --max-width: 1600px;
+  --section-space: clamp(6rem, 13vw, 11rem);
+  --nav-height: 4.5rem;
+  --hairline: 1px solid var(--color-shadow);
+
+  /* ---- Motion: durations & stagger ---- */
+  --dur-reveal: 1100ms;
+  --dur-hover: 250ms;
+  --dur-wipe: 520ms;
+  --stagger: 50ms;            /* 40–60ms per line/word */
+  --hover-lift: -6px;
+
+  /* ---- Motion: GSAP names (read by src/lib/motion.ts) ---- */
+  --gsap-ease-reveal: expo.out;
+  --gsap-ease-move: power3.inOut;
+
+  /* ---- Atmosphere ---- */
+  --grain-opacity: 0.055;
+  --band-light: rgb(255 255 255 / 0.55);
+  --band-shade: rgb(17 17 17 / 0.035);
+  --band-drift-duration: 48s;
+
+  /* ---- Surfaces ---- */
+  --card-shadow: 0 1px 0 rgb(17 17 17 / 0.04), 0 18px 40px -24px rgb(17 17 17 / 0.22);
+  --card-shadow-hover: 0 1px 0 rgb(17 17 17 / 0.05), 0 28px 56px -26px rgb(17 17 17 / 0.3);
+}
