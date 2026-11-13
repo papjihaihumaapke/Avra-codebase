@@ -164,11 +164,27 @@ export function mountHeroScene(
   }
   resize()
 
+  // Pointer parallax: the camera leans gently toward the cursor.
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0 }
+  const onPointer = (e: PointerEvent) => {
+    pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2
+    pointer.ty = (e.clientY / window.innerHeight - 0.5) * 2
+  }
+  if (!opts.reduced && window.matchMedia('(pointer: fine)').matches) {
+    window.addEventListener('pointermove', onPointer, { passive: true })
+  }
+
   const look = new Vector3()
   const place = (t: number) => {
+    pointer.x += (pointer.tx - pointer.x) * 0.05
+    pointer.y += (pointer.ty - pointer.y) * 0.05
     // Slow upward drift (eased ping-pong, ~80s cycle) with a whisper of lateral sway.
     const rise = (1 - Math.cos(t * 0.078)) / 2
-    camera.position.set(base.pos.x + Math.sin(t * 0.05) * 0.25, base.pos.y + rise * 2.2, base.pos.z)
+    camera.position.set(
+      base.pos.x + Math.sin(t * 0.05) * 0.25 + pointer.x * 0.9,
+      base.pos.y + rise * 2.2 - pointer.y * 0.5,
+      base.pos.z,
+    )
     look.set(base.look.x, base.look.y + rise * 1.6, base.look.z)
     camera.lookAt(look)
   }
@@ -226,6 +242,7 @@ export function mountHeroScene(
     ro.disconnect()
     io.disconnect()
     document.removeEventListener('visibilitychange', onVis)
+    window.removeEventListener('pointermove', onPointer)
     scene.traverse((o) => {
       if (o instanceof Mesh) {
         o.geometry.dispose()

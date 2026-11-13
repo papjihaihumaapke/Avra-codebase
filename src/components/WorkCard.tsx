@@ -1,7 +1,8 @@
-import type { CSSProperties } from 'react'
+import { useRef, type CSSProperties } from 'react'
 import type { Img, Project } from '../content/work'
 import { Arrow } from './ui'
 import { TLink } from './Transition'
+import { useTilt } from '../lib/useTilt'
 
 /** Uncropped image inside a Bone frame of a fixed ratio. */
 export function Frame({
@@ -38,10 +39,12 @@ export function Frame({
 }
 
 export function WorkCard({ project, index, delay = 0 }: { project: Project; index: number; delay?: number }) {
+  const tiltRef = useRef<HTMLDivElement>(null)
+  useTilt(tiltRef, 5)
   return (
     <li data-reveal="fade" style={{ '--d': `${delay}ms` } as CSSProperties}>
       <TLink to={`/work/${project.slug}`} className="group block">
-        <div className="transition-transform duration-300 ease-move group-hover:-translate-y-1">
+        <div ref={tiltRef}>
           <Frame image={project.cover} className="transition-shadow duration-300 group-hover:shadow-[var(--card-shadow-hover)]" />
         </div>
         <div className="hairline-t mt-5 flex items-baseline justify-between gap-4 pt-4">

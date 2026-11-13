@@ -1,12 +1,19 @@
 /**
  * Portfolio. Images live in /public/work/<slug>/.
- * Client work is marked `type: 'Client'`; self-initiated studies are `type: 'Concept'`.
+ * Client work only.
  * Results are only stated where they are documented. Nothing here is invented.
  */
 
 export type Img = { src: string; w: number; h: number; alt: string }
-export type Section = { heading: string; body: string[]; images?: Img[] }
-export type Category = 'Websites' | 'Brand identity' | 'Social & ads' | 'Product & UX' | 'Concepts'
+export type Section = {
+  heading: string
+  body: string[]
+  list?: string[]
+  groups?: { title: string; items: string[] }[]
+  table?: { head: string[]; rows: string[][] }
+  images?: Img[]
+}
+export type Category = 'Websites' | 'Brand identity' | 'Social & ads' | 'Product & UX'
 
 export type Project = {
   slug: string
@@ -20,6 +27,8 @@ export type Project = {
   tools?: string
   status?: string
   url?: string
+  /** Overrides the auto-generated facts row on the project page. */
+  facts?: { k: string; v: string }[]
   cover: Img
   sections: Section[]
   gallery?: Img[]
@@ -34,10 +43,123 @@ const img = (slug: string, file: string, w: number, h: number, alt: string): Img
 })
 const sq = (slug: string, file: string, alt: string) => img(slug, file, 512, 512, alt)
 
-export const categories: Category[] = ['Websites', 'Brand identity', 'Social & ads', 'Product & UX', 'Concepts']
+export const categories: Category[] = ['Websites', 'Brand identity', 'Social & ads', 'Product & UX']
 
 export const projects: Project[] = [
   /* ------------------------------------------------------------------ Websites */
+  {
+    slug: 'alps-annie-ling',
+    title: 'ALPS by Annie Ling',
+    client: 'ALPS, an independent fashion label by designer Annie Ling',
+    category: 'Websites',
+    type: 'Client',
+    featured: true,
+    summary:
+      'E-commerce website design and development for a designer fashion label selling in Canada and Hong Kong, with a custom admin panel the founder runs herself.',
+    services: 'Web design · E-commerce · Custom CMS',
+    url: 'https://annieling.com',
+    facts: [
+      { k: 'Client', v: 'ALPS, an independent fashion label by designer Annie Ling' },
+      { k: 'Services', v: 'Web design, e-commerce development, custom admin panel (CMS), content structure, client training' },
+      { k: 'Markets', v: 'Canada and Hong Kong' },
+      { k: 'Timeline', v: 'June to November 2026' },
+    ],
+    cover: img('alps-annie-ling', 'cover', 1600, 804, 'ALPS website: the designer page with Annie Ling’s story beside a black-and-white portrait'),
+    sections: [
+      {
+        heading: 'The brand',
+        body: [
+          'ALPS is a designer fashion label built around innovation. Its fabrics and finishes come with technical benefits, and every piece shows them.',
+          'The range covers five worlds: Innovation, Contemporary, Accessories, Collaborations (including a collection with The Little Prince) and Vegan Skin & Personal Care. Annie has spent her career working with international brands, and she wanted a site that tells her story as a designer as well as selling her work.',
+        ],
+      },
+      {
+        heading: 'The problem',
+        body: [
+          'ALPS had a catalogue that a standard store template could not handle. Each style carries a lot of detail: a style description, design features, composition, care instructions, sizes, colours, a set of technology icons and sometimes a video. On top of that, the brand sells in two countries with different stock and tax rules.',
+          'Annie also needed to run the site herself. She wanted to add products, publish her own stories and set up new brand collaborations without calling a developer each time. And there was a hard deadline: the site had to be live before her November market booth and the holiday shopping season.',
+        ],
+      },
+      {
+        heading: 'How we helped',
+        body: [
+          'We designed and built a custom e-commerce site and a simple admin panel around the way Annie already works.',
+          'Her product information lives in spreadsheets and Google Drive folders, so we shaped the site’s data to match those files instead of making her learn a new system. Over regular video calls we walked her through each part of the admin and kept refining it from her feedback until she could manage the site on her own.',
+        ],
+      },
+      {
+        heading: 'What we did',
+        body: [],
+        groups: [
+          {
+            title: 'Storefront and product experience',
+            items: [
+              'A landing page leading into five product categories, each with its own filters',
+              'Filters by season (all season, spring/summer, fall/winter), by who it’s for (women, men, unisex, kids) and by garment type (overcoats and jackets, tops, skirts, shorts, pants, one-pieces)',
+              'Product pages with a clear layout: photos, style name and price on one side, with buying options and details on the other',
+              'Colour dots that switch the gallery to show only that colour’s photos',
+              'Technology icons on each style that open a popup explaining the innovation behind it',
+              'Image galleries with arrows, consistent frame sizes and hover-to-zoom, plus up to two videos per product',
+              'Bigger, easier-to-read text across the site',
+            ],
+          },
+          {
+            title: 'Commerce',
+            items: [
+              'Cart and checkout with Stripe payments',
+              'Shipping estimates based on each product’s weight',
+              'Separate tax rules for Canada and Hong Kong',
+              'Promo codes, plus a pre-order and membership signup with a customer list that exports to Excel',
+            ],
+          },
+          {
+            title: 'Admin panel built for the owner',
+            items: [
+              'Add and edit products with stock for each colour and size, tracked separately for Hong Kong and Canada',
+              'Quick size presets (0/1/2/3, XS to L, one size), and sizes, tags and hashtags can be pasted in the same format as her own files',
+              'A “collection” field that mirrors her Google Drive folders, so she can filter products by season and collection',
+              'Several photos per colour, with each one removable on its own',
+            ],
+          },
+          {
+            title: 'Brand storytelling',
+            items: [
+              'Design Path: a blog-style timeline of Annie’s journey as a designer. Each post can hold several photos, and the newest post shows first.',
+              'Milestones: her writing at the top, with awards and press links below, plus room for moments like shop openings, so it reads as a story rather than a trophy shelf.',
+              'The Science Behind: an editorial section in Personal Care for sharing skincare technology news, with no prices or buy buttons.',
+              'Collaborations: each partner brand gets its own clickable circle that shows only that brand’s pieces. A new partner can be added from the admin and appears on the page automatically.',
+            ],
+          },
+        ],
+        images: [
+          img('alps-annie-ling', 'site-desktop', 1440, 900, 'ALPS product page for a water-repellent hooded windbreaker'),
+        ],
+      },
+      {
+        heading: 'Project timeline',
+        body: [],
+        table: {
+          head: ['Phase', 'When', 'What happened'],
+          rows: [
+            ['Discovery and scope', 'June 2026', 'Mapped the catalogue, the five categories, the two-market rules and the admin needs'],
+            ['Core build', 'June to August', 'Storefront, product pages, cart, checkout, Stripe payments and the first admin panel'],
+            ['Storytelling sections', 'August to September', 'Built Design Path and Milestones, renamed sections with Annie and trained her on publishing'],
+            ['Catalogue and product pages', 'September to October', 'Season, gender and garment filters; product page redesign; colour galleries; tech icon popups; per-colour, per-size inventory'],
+            ['Refinement', 'October to early November', 'Layout and readability updates from Annie’s reviews, new Personal Care icons, the collaborations system and The Science Behind'],
+            ['Launch', 'November 8, 2026', 'Went live on annieling.com ahead of the November market season'],
+            ['Post-launch support', 'November 2026', 'Fixed issues found after launch and trained Annie on adding products, brands and stories'],
+          ],
+        },
+      },
+      {
+        heading: 'The result',
+        body: [
+          'ALPS now has a live store that fits its brand, launched in time for the market season and the holidays. Annie can add products, post stories, set up new collaborations and change prices herself.',
+        ],
+      },
+    ],
+    gallery: [img('alps-annie-ling', 'site-mobile', 780, 1688, 'ALPS product page on mobile')],
+  },
   {
     slug: 'go-green-mowing',
     title: 'Go Green Mowing',
@@ -93,27 +215,6 @@ export const projects: Project[] = [
       sq('little-anna', 'g-5', 'Little Anna staff tee'),
       sq('little-anna', 'g-6', 'Little Anna delivery boxes'),
     ],
-  },
-  {
-    slug: 'fashion-ecommerce',
-    title: 'Fashion e-commerce',
-    client: 'Fashion retailer (confidential)',
-    category: 'Websites',
-    type: 'Client',
-    featured: true,
-    summary: 'An e-commerce website for a fashion retailer, built around clean product pages and a simple path to checkout.',
-    services: 'E-commerce website',
-    cover: img('fashion-ecommerce', 'site-desktop', 1440, 900, 'Product page for a water-repellent hooded windbreaker'),
-    sections: [
-      {
-        heading: 'What we made',
-        body: [
-          'Product pages that put the photography first, with colour and size options, clear pricing and a single add-to-bag action.',
-          'The client site is not public, so it is shown here with screenshots only.',
-        ],
-      },
-    ],
-    gallery: [img('fashion-ecommerce', 'site-mobile', 780, 1688, 'Product page on mobile')],
   },
 
   /* ------------------------------------------------------------ Brand identity */
@@ -312,270 +413,6 @@ export const projects: Project[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ Concepts */
-  {
-    slug: 'zara-redesign',
-    title: 'Zara redesign',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2025',
-    tools: 'Figma, Illustrator, Photoshop',
-    summary: 'A redesign of the Zara web experience focused on accessibility, intuitive navigation and a refined visual hierarchy.',
-    services: 'Web redesign · Accessibility',
-    cover: img('zara-redesign', 'cover', 1600, 833, 'Mid-fidelity wireframes for laptop and tablet'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: [
-          'Complex navigation and an inconsistent experience across devices, plus accessibility hurdles such as poor keyboard support and low contrast.',
-        ],
-      },
-      {
-        heading: 'Process',
-        body: [
-          'Analysis of the existing site revealed the friction points: overwhelming choices and a lack of clear visual organisation. Accessibility audits found contrast and navigation gaps.',
-          'From Miller’s Law for chunking information to Gestalt principles for visual hierarchy, each decision aimed to reduce cognitive load and improve the shopping journey.',
-        ],
-        images: [
-          img('zara-redesign', 'img-1', 1600, 833, 'Key findings: usability issues and accessibility challenges'),
-          img('zara-redesign', 'img-2', 1600, 833, 'Mid-fidelity mobile wireframes'),
-        ],
-      },
-      {
-        heading: 'The solution',
-        body: [
-          'A minimalist, functional redesign that prioritises accessibility and responsiveness, with easier product discovery and a smoother checkout flow.',
-        ],
-        images: [img('zara-redesign', 'img-3', 1600, 833, 'Mobile wireframes with product imagery for the redesigned shopping flow')],
-      },
-      {
-        heading: 'What we learned',
-        body: [
-          'Balancing a high-fashion, minimalist brand with the needs of a high-volume store comes down to visual hierarchy and small interactions; they are what make the experience feel premium.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'healthy-city-dashboard',
-    title: 'Healthy City Dashboard',
-    client: 'Concept project on City of Vancouver open data',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2025',
-    tools: 'Figma, Chart.js, HTML, CSS, JS',
-    summary: 'An accessibility-driven redesign of the Mode Share indicator, from static tables to an interactive dashboard.',
-    services: 'Data visualisation · Accessibility',
-    cover: img('healthy-city-dashboard', 'cover', 1159, 1500, 'Project overview: content audit, lo-fi and hi-fi'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: [
-          'The Mode Share indicator (how residents bike, walk and take transit) shipped as static tables with weak hierarchy, limited filtering and inconsistent accessibility.',
-        ],
-      },
-      {
-        heading: 'Our role',
-        body: [
-          'Design lead in a two-person team, running the redesign from content audit to coded dashboard and owning the visual system and accessibility pass, while staying aligned with the existing city look.',
-        ],
-      },
-      {
-        heading: 'Process',
-        body: [
-          'A 12-week plan with a roadmap, work breakdown and risk log: content audit, lo-fi wireframes, hi-fi prototype, then a build wiring JSON data to Chart.js. Accessibility checks ran before integration, not after it.',
-        ],
-        images: [
-          img('healthy-city-dashboard', 'img-1', 1159, 1500, '12-week roadmap and schedule'),
-          img('healthy-city-dashboard', 'img-2', 1159, 1500, 'Work breakdown structure across five phases'),
-        ],
-      },
-      {
-        heading: 'What we learned',
-        body: [
-          'Treating accessibility as a build-time gate kept it from becoming an afterthought, and made the visual system stronger: contrast and hierarchy are the same problem.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'youtube-trending-dashboard',
-    title: 'YouTube Trending Dashboard',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2026',
-    tools: 'Figma, D3.js, Chart.js',
-    summary: 'An interactive three-page analytics dashboard over 40,000+ rows of trending video data across 10 countries.',
-    services: 'Dashboard design · Build',
-    cover: img('youtube-trending-dashboard', 'cover', 1440, 900, 'Trending video analytics dashboard with charts comparing countries'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: ['Trending video data across 10 countries runs to 40,000+ rows. The goal was to make the patterns in it readable.'],
-      },
-      {
-        heading: 'The solution',
-        body: ['A three-page interactive dashboard designed in Figma and built with D3.js and Chart.js.'],
-      },
-    ],
-  },
-  {
-    slug: 'acminder',
-    title: 'Acminder',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2025',
-    tools: 'Figma, Miro, Google Forms, React',
-    summary: 'Proactive schedule management for international students, research-led from goals and personas to a hi-fi mobile system.',
-    services: 'UX research · Mobile app',
-    cover: img('acminder', 'img-1', 1500, 843, 'International student persona'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: [
-          'International students juggle 20+ hours of work a week against a full course load, LMS deadlines and visa work-hour limits. Existing calendar and LMS tools each track one world and never warn before a conflict.',
-        ],
-      },
-      {
-        heading: 'Our role',
-        body: [
-          'The full UX process: research goals, competitive analysis, personas, flows, wireframes, usability metrics and a hi-fi prototype, documented in a technical requirements document.',
-        ],
-      },
-      {
-        heading: 'Process',
-        body: [
-          'Comparative analysis showed the gap: manual entry, visual-only conflict detection and no work-hour context. We mapped onboarding, task add, edit and delete, calendar and settings flows, with annotated wireframes for each screen.',
-        ],
-        images: [
-          img('acminder', 'img-2', 1500, 843, 'Comparison against calendar and LMS tools'),
-          img('acminder', 'img-3', 1062, 1500, 'Hi-fi sign-up screen with annotations'),
-          img('acminder', 'img-4', 1062, 1500, 'Task management flow for add, edit and delete'),
-        ],
-      },
-      {
-        heading: 'The solution',
-        body: ['A unified dashboard that merges academic, work and personal schedules, detects conflicts and nudges before problems happen.'],
-      },
-      {
-        heading: 'What we learned',
-        body: [
-          'Because the persona’s constraints were hard requirements, every screen decision had a reason. Research is the argument every pixel has to answer to.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'mini-minds',
-    title: 'Mini Minds',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2024',
-    tools: 'Figma, Illustrator, Canva',
-    summary: 'An interactive learning app for children aged 5 to 10, built around gamified learning and creative skill development.',
-    services: 'Mobile app · UX',
-    cover: img('mini-minds', 'cover', 1440, 1024, 'Mini Minds app shown on two phones'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: [
-          'Traditional learning platforms are often rigid and fail to engage young learners. Children need something that matches their energy and different learning styles.',
-        ],
-      },
-      {
-        heading: 'Process',
-        body: [
-          'Research showed that children respond best to play-based discovery. We reviewed existing EdTech apps for gaps in creative engagement and the balance of sound and visuals.',
-          'From empathy mapping to heuristic evaluation, we iterated on navigation and the reward system so the app feels like a game rather than a chore.',
-        ],
-        images: [
-          img('mini-minds', 'img-1', 1440, 1024, 'Empathy map from the parent’s point of view'),
-          img('mini-minds', 'img-2', 1440, 1024, 'Heuristic evaluation notes'),
-        ],
-      },
-      {
-        heading: 'The solution',
-        body: ['A mobile app that uses gamification to nurture creativity and critical thinking, with a vibrant identity made for the 5 to 10 age group.'],
-        images: [img('mini-minds', 'img-3', 1440, 1024, 'Nine high-fidelity Mini Minds screens from splash to quiz')],
-      },
-      {
-        heading: 'What we learned',
-        body: ['Designing for children means different constraints: larger touch targets, vibrant feedback and extremely simple navigation.'],
-      },
-    ],
-  },
-  {
-    slug: 'musify-motion-system',
-    title: 'Musify',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2025',
-    tools: 'Figma, GSAP, ScrollTrigger, Lenis',
-    summary: 'A brand identity and motion system for a live-music platform, built on a “live stage” metaphor with five signature interactions.',
-    services: 'Brand · Motion system',
-    cover: img('musify-motion-system', 'cover', 1500, 843, 'Musify live stage identity'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: [
-          'Flat screens don’t capture the energy of a live venue. The brief: a brand identity and a motion language that make a dark UI feel alive.',
-        ],
-      },
-      {
-        heading: 'Our role',
-        body: [
-          'The identity and the motion system: colour, type, a three-rule “motion recipe”, and five signature interactions coded in GSAP, all documented as a style guide.',
-        ],
-        images: [
-          img('musify-motion-system', 'img-1', 1500, 843, 'The Musify motion recipe: three governing principles'),
-          img('musify-motion-system', 'img-2', 1500, 843, 'Curtain-reveal preloader frames'),
-        ],
-      },
-      {
-        heading: 'What we learned',
-        body: [
-          'A motion system is only as good as its constraints. Writing timing and easing rules down first is what made five interactions feel like one brand.',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'motion-component-library',
-    title: 'Purposeful Motion',
-    client: 'Concept project',
-    category: 'Concepts',
-    type: 'Concept',
-    year: '2025',
-    tools: 'HTML, CSS, JavaScript, Figma',
-    summary: 'A documented library of eight functional micro-interactions: motion for clarity, feedback and delight, not decoration.',
-    services: 'Interaction · Motion',
-    cover: img('motion-component-library', 'cover', 1500, 843, 'Purposeful Motion library overview'),
-    sections: [
-      {
-        heading: 'The problem',
-        body: ['Motion is usually treated as the last polish pass. This library argues it is a functional tool that adds clarity and feedback and reduces uncertainty.'],
-      },
-      {
-        heading: 'Process',
-        body: [
-          'Eight components, each mapped to a design principle and a real UX concern, and specified like a design token: loader, success, error shake, toggle, floating input, expandable card, modal and drag and drop.',
-        ],
-        images: [
-          img('motion-component-library', 'img-1', 1500, 843, 'Eight motion components with timing, easing and scenario'),
-          img('motion-component-library', 'img-2', 1500, 843, 'Storyboard of a form validation error and floating input'),
-        ],
-      },
-      {
-        heading: 'What we learned',
-        body: ['Documenting the “why” beside the “how” turns a pile of effects into a system a team can reuse.'],
-      },
-    ],
-  },
 ]
 
 export const featuredProjects = projects.filter((p) => p.featured)

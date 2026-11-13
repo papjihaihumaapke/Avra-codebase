@@ -211,8 +211,8 @@
 .light-bands__inner {
   position: absolute;
   inset: -20%;
-  /* Pre-rendered soft bands (public/light-bands.png): one cheap GPU layer instead of live blur filters. */
-  background: url("/light-bands.png") center / cover no-repeat;
+  /* Pre-rendered soft bands (public/light-bands.webp): one cheap GPU layer instead of live blur filters. */
+  background: url("/light-bands.webp") center / cover no-repeat;
   will-change: transform;
 }
 .motion-ok .light-bands__drift {
@@ -462,4 +462,132 @@ html.lenis body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   Client logo marquee
+   ========================================================================== */
+.marquee {
+  overflow: hidden;
+  --marquee-duration: 48s;
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+}
+.marquee__row {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+.marquee__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(6rem, 11vw, 8rem);
+  padding-inline: clamp(1.75rem, 4vw, 3.5rem);
+  border-right: 1px solid var(--color-shadow);
+}
+.marquee__logo {
+  max-height: clamp(2.75rem, 5.4vw, 4.25rem);
+  max-width: clamp(6.5rem, 12vw, 10rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.72;
+  transition:
+    filter var(--dur-hover) var(--ease-move),
+    opacity var(--dur-hover) var(--ease-move);
+}
+.marquee__item:hover .marquee__logo {
+  filter: none;
+  opacity: 1;
+}
+.motion-ok .marquee__track {
+  animation: marquee var(--marquee-duration) linear infinite;
+}
+.motion-ok .marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+/* Without motion: one static, wrapping row. */
+html:not(.motion-ok) .marquee__row[aria-hidden="true"] {
+  display: none;
+}
+html:not(.motion-ok) .marquee__track,
+html:not(.motion-ok) .marquee__row {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Featured case study: 3D browser frame
+   ========================================================================== */
+.stage-3d {
+  perspective: 1600px;
+  perspective-origin: 60% 40%;
+}
+.stage-3d__inner {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.browser {
+  border-radius: var(--radius-lg);
+  background: var(--color-bone);
+  box-shadow: 0 2px 0 rgb(17 17 17 / 0.04), 0 40px 80px -40px rgb(17 17 17 / 0.45);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.browser__bar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: 28px;
+  padding-inline: 12px;
+  border-bottom: 1px solid var(--color-shadow);
+}
+.browser__bar span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-shadow);
+}
+.float-card {
+  position: absolute;
+  border-radius: var(--radius-md);
+  background: var(--color-bone);
+  padding: 6px;
+  box-shadow: 0 30px 60px -30px rgb(17 17 17 / 0.5);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Kinetic text band
+   ========================================================================== */
+.kinetic {
+  overflow: hidden;
+}
+.kinetic__row {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  font-size: clamp(3.5rem, 11vw, 10rem);
+  will-change: transform;
+}
+.kinetic__row--outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-graphite);
+}
+.kinetic__dot {
+  color: var(--color-signal);
+  -webkit-text-stroke: 0;
+  padding-inline: 0.25em;
 }

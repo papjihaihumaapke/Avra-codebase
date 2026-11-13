@@ -1,7 +1,18 @@
-import type { CSSProperties } from 'react'
+import { useRef, type CSSProperties, type ReactNode } from 'react'
 import { Arrow, MaskLines, SectionLabel } from '../components/ui'
 import { TLink } from '../components/Transition'
 import { services } from '../content/site'
+import { useTilt } from '../lib/useTilt'
+
+function TiltCard({ children, className }: { children: ReactNode; className: string }) {
+  const ref = useRef<HTMLElement>(null)
+  useTilt(ref, 7)
+  return (
+    <article ref={ref} className={className}>
+      {children}
+    </article>
+  )
+}
 
 /** Desktop: cards step up and to the right like stairs. Mobile: each indents further right. */
 const stepClass = [
@@ -34,7 +45,7 @@ export function Services() {
               style={{ '--d': `${i * 120}ms` } as CSSProperties}
               className={`lg:col-span-4 ${stepClass[i]}`}
             >
-              <article className="group relative flex h-full min-h-[19rem] flex-col rounded-lg bg-bone p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 ease-move hover:-translate-y-1.5 hover:shadow-[var(--card-shadow-hover)] focus-within:-translate-y-1.5 md:min-h-[24rem] md:p-8">
+              <TiltCard className="group relative flex h-full min-h-[19rem] flex-col rounded-lg bg-bone p-6 shadow-[var(--card-shadow)] transition-shadow duration-300 ease-move hover:shadow-[var(--card-shadow-hover)] md:min-h-[24rem] md:p-8">
                 <p className="label muted transition-colors duration-300 group-hover:text-signal group-focus-within:text-signal">
                   {s.index}
                 </p>
@@ -48,7 +59,7 @@ export function Services() {
                     Learn more<span className="sr-only"> about {s.title}</span> <Arrow />
                   </TLink>
                 </div>
-              </article>
+              </TiltCard>
             </li>
           ))}
         </ul>

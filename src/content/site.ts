@@ -74,17 +74,18 @@ export const processSteps = [
   { index: '04', title: 'Grow', body: 'We test, report plainly and refine, month after month.' },
 ] as const
 
-/** Brands we have worked with. Logos live in /public/clients. */
+/** Brands we have worked with (logo marquee). Logos live in /public/clients. */
 export const clients = [
-  { name: 'Noon Minutes', logo: '/clients/noon-minutes.png', w: 70, h: 34 },
-  { name: 'Fit & Flex', logo: '/clients/fit-and-flex.png', w: 396, h: 244 },
-  { name: 'Go Green Mowing', logo: '/clients/go-green-mowing.png', w: 420, h: 394 },
-  { name: 'The Indian Club House', logo: '/clients/indian-club-house.png', w: 319, h: 320 },
-  { name: 'EZ Rentalz', logo: '/clients/ez-rentalz.png', w: 520, h: 63 },
+  { name: 'ALPS by Annie Ling', logo: '/clients/alps-annie-ling.webp', w: 320, h: 137 },
+  { name: 'Noon Minutes', logo: '/clients/noon-minutes.webp', w: 70, h: 34 },
+  { name: 'Fit & Flex', logo: '/clients/fit-and-flex.webp', w: 227, h: 140 },
+  { name: 'Little Anna', logo: '/clients/little-anna.webp', w: 140, h: 140 },
+  { name: 'Go Green Mowing', logo: '/clients/go-green-mowing.webp', w: 149, h: 140 },
+  { name: 'The Indian Club House', logo: '/clients/indian-club-house.webp', w: 140, h: 140 },
+  { name: 'Kwantlen Pizza 56', logo: '/clients/kwantlen-pizza-56.webp', w: 219, h: 140 },
+  { name: 'EZ Rentalz', logo: '/clients/ez-rentalz.webp', w: 320, h: 39 },
+  { name: 'Desert Fox', logo: '/clients/desert-fox.webp', w: 128, h: 140 },
 ] as const
-
-/** Named without logos, shown as "and more". */
-export const moreClients = ['Little Anna', 'Desert Fox', 'Dunes & Scents', 'Wall Canvas'] as const
 
 export const whyPoints = [
   {

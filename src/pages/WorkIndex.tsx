@@ -38,7 +38,7 @@ export function WorkIndex() {
       <PageHeader
         label="Work"
         lines={['Work that', 'pays its way.']}
-        lead="Websites, identities, social creative and product design for local businesses and growing brands, plus a few concept studies."
+        lead="Websites, identities, social creative and product design for local businesses and growing brands."
       />
 
       <section aria-labelledby="projects-title" className="section relative pt-14 md:pt-20">

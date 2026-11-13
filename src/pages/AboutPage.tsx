@@ -47,7 +47,7 @@ export function AboutPage() {
         </div>
       </section>
       <Why />
-      <div className="pb-[var(--section-space)]">
+      <div className="pb-[calc(var(--section-space)*0.6)]">
         <Clients />
       </div>
       <FinalCta />

@@ -32,7 +32,7 @@ export function ProjectPage() {
 
   const i = projects.indexOf(project)
   const next = projects[(i + 1) % projects.length]
-  const meta = [
+  const meta = project.facts ?? [
     { k: 'Client', v: project.client },
     { k: 'Services', v: project.services },
     project.year ? { k: 'Year', v: project.status ? `${project.year}, ${project.status.toLowerCase()}` : project.year } : null,
@@ -50,7 +50,7 @@ export function ProjectPage() {
             <p className="label muted mt-10 flex flex-wrap gap-x-3">
               <span>{project.category}</span>
               <span aria-hidden="true">/</span>
-              <span>{project.type === 'Concept' ? 'Concept study' : 'Client work'}</span>
+              <span>Client work</span>
             </p>
             <MaskLines as="h1" hero className="t-display mt-5 max-w-[16ch]" lines={[project.title]} />
             <p className="t-lead hero-fade mt-6 max-w-[44rem]" style={{ '--d': '300ms' } as CSSProperties}>
@@ -100,6 +100,60 @@ export function ProjectPage() {
                     {p}
                   </p>
                 ))}
+                {s.list && (
+                  <ul className="max-w-[60ch]">
+                    {s.list.map((x) => (
+                      <li key={x} className="hairline-t py-3 leading-snug">
+                        {x}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {s.groups && (
+                  <div className="grid gap-x-[var(--grid-gap)] gap-y-10 lg:grid-cols-2">
+                    {s.groups.map((g) => (
+                      <div key={g.title}>
+                        <h3 className="text-[1.25rem] font-semibold tracking-[-0.02em]">{g.title}</h3>
+                        <ul className="mt-3">
+                          {g.items.map((x) => (
+                            <li key={x} className="hairline-t muted flex gap-3 py-3 leading-snug">
+                              <span aria-hidden="true" className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-graphite" />
+                              <span>{x}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {s.table && (
+                  <div className="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0">
+                    <table className="w-full min-w-[36rem] border-collapse text-left">
+                      <thead>
+                        <tr>
+                          {s.table.head.map((h) => (
+                            <th key={h} scope="col" className="label muted border-b border-shadow pb-3 pr-6 font-medium">
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {s.table.rows.map((r) => (
+                          <tr key={r[0]} className="border-b border-shadow align-top">
+                            <th scope="row" className="py-4 pr-6 font-semibold">
+                              {r[0]}
+                            </th>
+                            <td className="whitespace-nowrap py-4 pr-6 font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-stone-ink">
+                              {r[1]}
+                            </td>
+                            <td className="muted py-4 leading-snug">{r[2]}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
               {s.images?.map((im) => (
                 <div key={im.src} className="col-span-12 mt-4" data-reveal="fade">
