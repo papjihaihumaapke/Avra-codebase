@@ -210,32 +210,34 @@
 }
 .light-bands__inner {
   position: absolute;
-  inset: -30% -20%;
+  inset: -20%;
+  /* Pre-rendered soft bands (public/light-bands.png): one cheap GPU layer instead of live blur filters. */
+  background: url("/light-bands.png") center / cover no-repeat;
   will-change: transform;
 }
-.light-band {
-  position: absolute;
-  top: -10%;
-  height: 140%;
-  transform: rotate(28deg);
-  filter: blur(48px);
-  will-change: transform;
-}
-.light-band--a { left: 8%; width: 18vw; background: var(--band-light); }
-.light-band--b { left: 34%; width: 7vw; background: var(--band-shade); }
-.light-band--c { left: 52%; width: 24vw; background: var(--band-light); }
-.light-band--d { left: 82%; width: 10vw; background: var(--band-shade); }
-
-.motion-ok .light-band {
+.motion-ok .light-bands__drift {
   animation: band-drift var(--band-drift-duration) var(--ease-move) infinite alternate;
 }
-.motion-ok .light-band--b { animation-duration: calc(var(--band-drift-duration) * 1.3); animation-delay: -12s; }
-.motion-ok .light-band--c { animation-duration: calc(var(--band-drift-duration) * 0.85); animation-delay: -20s; }
-.motion-ok .light-band--d { animation-duration: calc(var(--band-drift-duration) * 1.15); animation-delay: -6s; }
-
+.light-bands__drift {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
 @keyframes band-drift {
-  from { transform: rotate(28deg) translate3d(-6vw, 0, 0); }
-  to   { transform: rotate(28deg) translate3d(6vw, 0, 0); }
+  from { transform: translate3d(-4%, 0, 0); }
+  to   { transform: translate3d(4%, 0, 0); }
+}
+
+/* Smooth scroll (Lenis) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 /* ==========================================================================
@@ -254,12 +256,12 @@
 .mask > span {
   display: block;
 }
-.motion-ok [data-reveal] .mask > span {
+.motion-ok.reveal-on [data-reveal] .mask > span {
   transform: translate3d(0, 110%, 0);
   transition: transform var(--dur-reveal) var(--ease-reveal);
   transition-delay: calc(var(--i, 0) * var(--stagger) + var(--d, 0ms));
 }
-.motion-ok [data-reveal].is-in .mask > span {
+.motion-ok.reveal-on [data-reveal].is-in .mask > span {
   transform: none;
 }
 
@@ -285,8 +287,10 @@
   animation: fade-up 900ms var(--ease-reveal) both;
   animation-delay: var(--d, 450ms);
 }
+/* Starts partly inside the mask: the headline still rises, but is visible (and counted
+   as the Largest Contentful Paint) from the very first frame. */
 @keyframes rise {
-  from { transform: translate3d(0, 110%, 0); }
+  from { transform: translate3d(0, 55%, 0); }
   to   { transform: none; }
 }
 @keyframes fade-up {
@@ -420,16 +424,16 @@
     --d: 0ms !important;
   }
 }
-.motion-ok [data-reveal] .stair-tread {
+.motion-ok.reveal-on [data-reveal] .stair-tread {
   transform: scaleX(0);
   transition: transform 1000ms var(--ease-move) var(--d, 0ms);
 }
-.motion-ok [data-reveal] .stair-riser {
+.motion-ok.reveal-on [data-reveal] .stair-riser {
   transform: scaleY(0);
   transition: transform 700ms var(--ease-move) var(--d, 0ms);
 }
-.motion-ok [data-reveal].is-in .stair-tread,
-.motion-ok [data-reveal].is-in .stair-riser {
+.motion-ok.reveal-on [data-reveal].is-in .stair-tread,
+.motion-ok.reveal-on [data-reveal].is-in .stair-riser {
   transform: none;
 }
 

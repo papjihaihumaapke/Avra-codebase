@@ -40,10 +40,13 @@ export function mountHeroScene(
   opts: { reduced: boolean; onReady?: () => void },
 ): () => void {
   const renderer = new WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'low-power' })
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
   renderer.outputColorSpace = SRGBColorSpace
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = PCFSoftShadowMap
+  // Light and geometry are static: compute the shadow map once, not every frame.
+  renderer.shadowMap.autoUpdate = false
+  renderer.shadowMap.needsUpdate = true
   renderer.domElement.setAttribute('aria-hidden', 'true')
   renderer.domElement.style.display = 'block'
   renderer.domElement.style.width = '100%'
@@ -118,7 +121,7 @@ export function mountHeroScene(
   sun.position.set(-22, 13, 11)
   sun.target.position.set(2, 2, -3)
   sun.castShadow = true
-  sun.shadow.mapSize.set(2048, 2048)
+  sun.shadow.mapSize.set(1536, 1536)
   sun.shadow.camera.left = -18
   sun.shadow.camera.right = 18
   sun.shadow.camera.top = 16

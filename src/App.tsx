@@ -4,9 +4,15 @@ import { Atmosphere } from './components/Atmosphere'
 import { Footer } from './components/Footer'
 import { Nav } from './components/Nav'
 import { TransitionProvider } from './components/Transition'
-import { routeMeta } from './content/site'
+import { metaFor, notFoundMeta } from './content/meta'
+import { motionEnabled } from './lib/motion'
+import { startSmoothScroll } from './lib/smooth'
 import { useRevealObserver } from './lib/useRevealObserver'
+import { AboutPage } from './pages/AboutPage'
 import { Contact } from './pages/Contact'
+import { ProjectPage } from './pages/ProjectPage'
+import { ServicesPage } from './pages/ServicesPage'
+import { WorkIndex } from './pages/WorkIndex'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
 
@@ -14,15 +20,20 @@ import { NotFound } from './pages/NotFound'
 function useRouteMeta() {
   const { pathname } = useLocation()
   useEffect(() => {
-    const meta = routeMeta[pathname] ?? { title: 'Page not found — AVRA', description: routeMeta['/'].description }
+    const meta = metaFor(pathname) ?? notFoundMeta
     document.title = meta.title
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description)
   }, [pathname])
 }
 
+function useSmoothScroll() {
+  useEffect(() => (motionEnabled() ? startSmoothScroll() : undefined), [])
+}
+
 function Shell() {
   useRevealObserver()
   useRouteMeta()
+  useSmoothScroll()
   return (
     <>
       <Atmosphere />
@@ -30,6 +41,10 @@ function Shell() {
       <main id="main" tabIndex={-1} className="relative z-10 outline-none">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/work" element={<WorkIndex />} />
+          <Route path="/work/:slug" element={<ProjectPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

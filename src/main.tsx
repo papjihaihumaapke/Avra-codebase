@@ -11,7 +11,7 @@ import { StrictMode } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import { routeMeta } from './content/site'
+import { metaFor } from './content/meta'
 
 declare global {
   interface Window {
@@ -32,7 +32,7 @@ const tree = (
 // (dev mode, or a host that served a fallback page).
 const path = window.location.pathname.replace(/\/+$/, '') || '/'
 const prerendered = container.dataset.route
-const matches = prerendered === path || (prerendered === '/404' && !(path in routeMeta))
+const matches = prerendered === path || (prerendered === '/404' && !metaFor(path))
 if (container.firstElementChild && matches) hydrateRoot(container, tree)
 else createRoot(container).render(tree)
 

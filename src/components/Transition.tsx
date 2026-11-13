@@ -10,7 +10,9 @@ import {
   type ReactNode,
 } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, motionEnabled, prefersReducedMotion } from '../lib/motion'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motionEnabled } from '../lib/motion'
+import { scrollToTarget } from '../lib/smooth'
 
 type Ctx = { go: (to: string) => void }
 const TransitionContext = createContext<Ctx>({ go: () => {} })
@@ -19,7 +21,7 @@ function scrollToHash(hash: string, smooth: boolean) {
   const id = decodeURIComponent(hash.replace(/^#/, ''))
   const el = id ? document.getElementById(id) : null
   if (!el) return
-  el.scrollIntoView({ behavior: smooth && !prefersReducedMotion() ? 'smooth' : 'auto', block: 'start' })
+  scrollToTarget(el, { immediate: !smooth || !motionEnabled() })
   // Move focus for keyboard and screen-reader users without a second jump.
   if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1')
   el.focus({ preventScroll: true })
@@ -41,7 +43,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     if (location.hash) {
       nextFrame().then(() => scrollToHash(location.hash, false))
     } else {
-      window.scrollTo(0, 0)
+      scrollToTarget(0, { immediate: true })
     }
   }, [location.pathname, location.hash])
 
@@ -56,19 +58,23 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       if (url.pathname === window.location.pathname && url.search === window.location.search) {
         navigate(url.pathname + url.search + url.hash, { preventScrollReset: true })
         if (url.hash) scrollToHash(url.hash, true)
-        else window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+        else scrollToTarget(0, { immediate: !motionEnabled() })
         return
       }
       const wipe = wipeRef.current
-      if (!wipe || busy.current || !motionEnabled()) {
+      if (busy.current) return
+      if (!wipe || !motionEnabled()) {
         navigate(url.pathname + url.search + url.hash)
         return
       }
       busy.current = true
-      await gsap.fromTo(wipe, { yPercent: 101 }, { yPercent: 0, duration: motion.durWipe, ease: motion.easeMove })
+      // Cover quickly, swap the page while hidden, let the new page settle, then reveal.
+      await gsap.fromTo(wipe, { yPercent: 101 }, { yPercent: 0, duration: 0.32, ease: 'power3.in' })
       navigate(url.pathname + url.search + url.hash)
       await nextFrame()
-      await gsap.to(wipe, { yPercent: -101, duration: motion.durWipe, ease: motion.easeMove })
+      ScrollTrigger.refresh()
+      await nextFrame()
+      await gsap.to(wipe, { yPercent: -101, duration: 0.5, ease: 'expo.out' })
       gsap.set(wipe, { yPercent: 101 })
       busy.current = false
     },

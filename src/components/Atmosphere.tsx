@@ -31,11 +31,8 @@ export function Atmosphere() {
   return (
     <>
       <div className="light-bands" aria-hidden="true">
-        <div ref={innerRef} className="light-bands__inner">
-          <span className="light-band light-band--a" />
-          <span className="light-band light-band--b" />
-          <span className="light-band light-band--c" />
-          <span className="light-band light-band--d" />
+        <div className="light-bands__drift">
+          <div ref={innerRef} className="light-bands__inner" />
         </div>
       </div>
       <div className="grain" aria-hidden="true" />

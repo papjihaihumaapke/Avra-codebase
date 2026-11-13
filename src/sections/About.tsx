@@ -1,14 +1,15 @@
 import type { CSSProperties } from 'react'
-import { MaskLines, SectionLabel } from '../components/ui'
+import { Arrow, MaskLines, SectionLabel } from '../components/ui'
+import { TLink } from '../components/Transition'
 
 const capabilities = ['Brand identity', 'Websites', 'Paid social & search', 'Creative & motion', 'Reporting']
 
-export function About() {
+export function About({ teaser = false }: { teaser?: boolean }) {
   return (
     <section id="about" aria-labelledby="about-title" className="section relative">
       <div className="shell">
         <div className="hairline-t grid-12 gap-y-6 pt-6">
-          <SectionLabel index="05" className="col-span-12 md:col-span-4">
+          <SectionLabel index={teaser ? '05' : undefined} className="col-span-12 md:col-span-4">
             Studio
           </SectionLabel>
           <MaskLines
@@ -30,6 +31,11 @@ export function About() {
               The people who plan your work are the people who make it, from the first call to the monthly report.
               No account managers in between, no handing you off once the contract is signed.
             </p>
+            {teaser && (
+              <TLink to="/about" className="link-arrow mt-8">
+                More about the studio <Arrow />
+              </TLink>
+            )}
           </div>
 
           <ul

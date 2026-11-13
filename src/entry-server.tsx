@@ -3,7 +3,8 @@ import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import App from './App'
 
-export { routeMeta, site } from './content/site'
+export { site } from './content/site'
+export { allRoutes, metaFor, notFoundMeta } from './content/meta'
 
 export function render(url: string): string {
   return renderToString(

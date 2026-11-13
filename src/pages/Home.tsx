@@ -18,7 +18,7 @@ export function Home() {
       <Work />
       <Clients />
       <Why />
-      <About />
+      <About teaser />
       <FinalCta />
     </>
   )

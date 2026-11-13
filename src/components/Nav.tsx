@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { navLinks } from '../content/site'
 import { BookButton, Logo } from './ui'
 import { TLink } from './Transition'
+import { lockScroll } from '../lib/smooth'
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -21,6 +22,7 @@ export function Nav() {
     if (!open) return
     const root = document.documentElement
     root.style.overflow = 'hidden'
+    lockScroll(true)
     const menu = menuRef.current
     const focusables = () =>
       [
@@ -50,6 +52,7 @@ export function Nav() {
     document.addEventListener('keydown', onKey)
     return () => {
       root.style.overflow = ''
+      lockScroll(false)
       document.removeEventListener('keydown', onKey)
       toggleRef.current?.focus()
     }

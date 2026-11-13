@@ -26,7 +26,7 @@ const preloads = ['inter-tight-latin-800-normal', 'inter-tight-latin-400-normal'
   .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`)
   .join('\n    ')
 template = template.replace('</title>', `</title>\n    ${preloads}`)
-const { render, routeMeta, site } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href)
+const { render, allRoutes, metaFor, notFoundMeta, site } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href)
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const abs = (p) => `${site.url}${p}`
@@ -57,14 +57,14 @@ const schema = {
 }
 
 const routes = [
-  { url: '/', out: 'index.html' },
-  { url: '/contact', out: 'contact/index.html' },
-  { url: '/contact', out: 'contact.html', alias: true },
+  ...allRoutes.map((url) => ({ url, out: url === '/' ? 'index.html' : `${url.slice(1)}/index.html` })),
+  // `/contact.html` style aliases for hosts that resolve extensionless URLs to .html files
+  ...allRoutes.filter((u) => u !== '/').map((url) => ({ url, out: `${url.slice(1)}.html`, alias: true })),
   { url: '/404', out: '404.html', noindex: true },
 ]
 
 for (const r of routes) {
-  const meta = routeMeta[r.url] ?? { title: 'Page not found — AVRA', description: routeMeta['/'].description }
+  const meta = metaFor(r.url) ?? notFoundMeta
   const appHtml = render(r.url)
   const head = [
     r.noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" href="${esc(abs(r.url))}" />`,
@@ -82,14 +82,14 @@ for (const r of routes) {
     .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${esc(meta.description)}$2`)
     .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${esc(meta.title)}$2`)
     .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/, `$1${esc(meta.description)}$2`)
-    .replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/, `$1${esc(abs('/og-image.png'))}$2`)
+    .replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/, `$1${esc(abs(meta.image ?? '/og-image.png'))}$2`)
 
   const file = path.join(dist, r.out)
   fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(file, html)
-  console.log(`prerendered ${r.url} → dist/${r.out}`)
 }
 
+console.log(`prerendered ${routes.length} pages`)
 fs.writeFileSync(
   path.join(dist, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>

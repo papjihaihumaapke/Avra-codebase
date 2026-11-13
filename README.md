@@ -36,7 +36,10 @@ Brand files: the full logo kit lives in `brand-assets/AVRA-Logo-Kit` (kept out o
 The site uses copies in `public/brand/` (wordmark, paper wordmark, tagline lockup, submark) plus the kit's
 favicon, app icons and Open Graph image in `public/`.
 
-Work images are in `public/work/`, client logos in `public/clients/`, team photos in `public/team/`.
+Work: every project lives in `src/content/work.ts` (copy, categories, images) and gets its own page at
+`/work/<slug>`. Images are in `public/work/<slug>/`. Client logos are in `public/clients/`.
+
+Pages: `/` home, `/work` (filterable), `/work/<slug>`, `/services`, `/about`, `/contact`. All are prerendered.
 
 ## Notes
 - **Static-first.** Every route is prerendered to HTML, so the site (including the Manifesto) reads fully without JavaScript. Motion only switches on when JS runs and `prefers-reduced-motion` is not set (the `.motion-ok` class on `<html>`).

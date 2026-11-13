@@ -40,10 +40,9 @@ export const bookHref = site.bookingUrl || '/contact#book'
 export const bookIsExternal = Boolean(site.bookingUrl)
 
 export const navLinks = [
-  { label: 'Services', href: '/#services' },
-  { label: 'Process', href: '/#process' },
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/#about' },
+  { label: 'Work', href: '/work' },
+  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ] as const
 
@@ -73,76 +72,6 @@ export const processSteps = [
   { index: '02', title: 'Plan', body: 'One clear plan: what we build, in what order, and how we measure it.' },
   { index: '03', title: 'Build', body: 'Brand, site and campaigns, made with care and shipped on schedule.' },
   { index: '04', title: 'Grow', body: 'We test, report plainly and refine, month after month.' },
-] as const
-
-/** Selected work. Images live in /public/work. */
-export const work = [
-  {
-    id: 'go-green-mowing',
-    title: 'Go Green Mowing',
-    clientType: 'Lawn care company',
-    services: 'Website · Mascot logo',
-    image: '/work/go-green-mowing.webp',
-    alt: 'Go Green Mowing website homepage with a green mascot and the headline “Bringing Nature’s Beauty To Your Backyard”',
-    w: 1440,
-    h: 900,
-    url: 'https://gogreenmowing.ca',
-  },
-  {
-    id: 'little-anna',
-    title: 'Little Anna',
-    clientType: 'Cakes & pastries bakery',
-    services: 'Rebrand · Packaging · Website',
-    image: '/work/little-anna.webp',
-    alt: 'Little Anna bakery website homepage with the headline “A little sweetness for every moment.”',
-    w: 1440,
-    h: 900,
-    url: 'https://littleanna.vercel.app',
-  },
-  {
-    id: 'fashion-ecommerce',
-    title: 'Fashion e-commerce',
-    clientType: 'Fashion retail',
-    services: 'E-commerce website',
-    image: '/work/fashion-ecommerce.webp',
-    alt: 'Fashion e-commerce product page for a water-repellent hooded windbreaker',
-    w: 1440,
-    h: 900,
-    url: '',
-  },
-  {
-    id: 'desert-fox',
-    title: 'Desert Fox',
-    clientType: 'Festival desserts',
-    services: 'Logo suite · Apparel · Packaging',
-    image: '/work/desert-fox.webp',
-    alt: 'Desert Fox branded orange t-shirts and cap on sand',
-    w: 512,
-    h: 512,
-    url: '',
-  },
-  {
-    id: 'dunes-and-scents',
-    title: 'Dunes & Scents',
-    clientType: 'Fragrance house',
-    services: 'AI product imagery',
-    image: '/work/dunes-and-scents.webp',
-    alt: 'Five ornate Dunes & Scents perfume bottles on stone plinths',
-    w: 512,
-    h: 512,
-    url: '',
-  },
-  {
-    id: 'wall-canvas',
-    title: 'Wall Canvas',
-    clientType: 'Neon wall art',
-    services: 'Logo · Social ads',
-    image: '/work/wall-canvas.webp',
-    alt: 'Wall Canvas social ad: a man holding a “Good Vibes” neon sign, “Light your walls with Wall Canvas.”',
-    w: 512,
-    h: 512,
-    url: '',
-  },
 ] as const
 
 /** Brands we have worked with. Logos live in /public/clients. */
@@ -182,6 +111,19 @@ export const routeMeta: Record<string, { title: string; description: string }> =
   '/': {
     title: 'AVRA — Growth that flows. Marketing studio in Vancouver, BC',
     description: site.description,
+  },
+  '/work': {
+    title: 'Work — AVRA, Vancouver marketing studio',
+    description: 'Websites, brand identities, social creative and product design for local businesses and growing brands.',
+  },
+  '/services': {
+    title: 'Services — Brand, websites and performance marketing | AVRA',
+    description:
+      'Brand identity, conversion-focused websites and performance marketing for small and mid-size businesses in Vancouver, BC.',
+  },
+  '/about': {
+    title: 'About — AVRA, a small studio in Vancouver',
+    description: 'A small senior marketing studio in Vancouver. The people who plan your work are the people who make it.',
   },
   '/contact': {
     title: 'Contact — AVRA, Vancouver marketing studio',

@@ -11,7 +11,7 @@ export function Logo({ className = '', inverse = false }: { className?: string; 
       width={542}
       height={138}
       className={`h-auto ${className}`}
-      decoding="async"
+      fetchPriority="high"
     />
   )
 }

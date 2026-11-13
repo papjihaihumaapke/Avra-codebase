@@ -42,7 +42,7 @@ export function Services() {
                 <p className="muted mt-3 max-w-[30ch] text-[1.0625rem] leading-snug">{s.body}</p>
                 <div className="hairline-t mt-8 pt-5">
                   <TLink
-                    to={`/contact?need=${s.slug}`}
+                    to={`/services#${s.slug}`}
                     className="link-arrow after:absolute after:inset-0 after:content-['']"
                   >
                     Learn more<span className="sr-only"> about {s.title}</span> <Arrow />
