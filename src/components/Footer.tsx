@@ -55,7 +55,7 @@ export function Footer() {
 
   return (
     <footer ref={ref} className="footer on-dark">
-      <img src="/brand/avra-submark.svg" alt="" aria-hidden="true" className="footer__mark" loading="lazy" />
+      <img src="/brand/avra-submark-paper.svg" alt="" aria-hidden="true" className="footer__mark" loading="lazy" />
 
       <div className="footer__grid shell">
         <div className="footer__col">

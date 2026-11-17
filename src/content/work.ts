@@ -460,5 +460,11 @@ for (const p of projects) Object.assign(p, extras[p.slug])
 /** The image to lead with for a project: its art-directed cover, else its first image. */
 export const coverOf = (p: Project): Img => p.art ?? p.cover
 
+/**
+ * Tiny pre-blurred copy of an image (generated next to it as *-blur.webp, ~300 bytes).
+ * Used for blurred backgrounds instead of CSS blur, which is very slow on phones.
+ */
+export const blurOf = (src: string) => src.replace(/\.webp$/, '-blur.webp')
+
 export const featuredProjects = projects.filter((p) => p.featured)
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug)

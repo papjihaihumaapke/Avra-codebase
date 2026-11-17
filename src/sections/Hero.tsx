@@ -5,11 +5,11 @@ import { motionEnabled } from '../lib/motion'
 
 /** Blurred, slowly crossfading work imagery: colour and movement, never detail. */
 const backdrops = [
-  '/work/dunes-and-scents/art.webp',
-  '/work/social-creative/art.webp',
-  '/work/little-anna/art.webp',
-  '/work/wall-canvas/art.webp',
-  '/work/go-green-mowing/art.webp',
+  '/work/dunes-and-scents/art-blur.webp',
+  '/work/social-creative/art-blur.webp',
+  '/work/little-anna/art-blur.webp',
+  '/work/wall-canvas/art-blur.webp',
+  '/work/go-green-mowing/art-blur.webp',
 ]
 
 /** Words are placed on a loose staggered grid, like type set by hand. */

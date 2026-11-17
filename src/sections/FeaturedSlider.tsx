@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { PillLink } from '../components/ui'
 import { TLink } from '../components/Transition'
 import { slides } from '../content/home'
-import { coverOf } from '../content/work'
+import { blurOf, coverOf } from '../content/work'
 import { gsap } from '../lib/gsap'
 import { motionEnabled } from '../lib/motion'
 
@@ -100,7 +100,7 @@ export function FeaturedSlider() {
                 aria-roledescription="slide"
                 aria-label={`${i + 1} of ${slides.length}: ${project.title}`}
               >
-                <div className="slide__bg" style={{ backgroundImage: `url(${art.src})` }} aria-hidden="true" />
+                <div className="slide__bg" style={{ backgroundImage: `url(${blurOf(art.src)})` }} aria-hidden="true" />
                 <div className="slide__shade" aria-hidden="true" />
                 <h3 className="slide__heading">
                   <SplitTitle text={project.title.replace(' by Annie Ling', '')} />

@@ -31,6 +31,11 @@ export function Contact() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const successRef = useRef<HTMLDivElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
+  // When the form became usable; sent as _elapsed so the server can drop instant bot submissions.
+  const readyAt = useRef(0)
+  useEffect(() => {
+    readyAt.current = Date.now()
+  }, [])
 
   // Prerendered HTML has no preset, so apply ?need= after hydration too.
   useEffect(() => {
@@ -64,7 +69,7 @@ export function Contact() {
     }
 
     setStatus('sending')
-    const payload = Object.fromEntries(data.entries())
+    const payload = { ...Object.fromEntries(data.entries()), _elapsed: Date.now() - readyAt.current }
     try {
       if (site.formEndpoint) {
         const res = await fetch(site.formEndpoint, {

@@ -11,6 +11,8 @@ import { SplitText } from 'gsap/SplitText'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, SplitText, Observer, CustomEase)
+  // Phones resize the viewport as the address bar shows/hides; don't recalculate every trigger for that.
+  ScrollTrigger.config({ ignoreMobileResize: true })
   // A long, confident settle — the house ease for big type.
   CustomEase.create('avra', 'M0,0 C0.16,1 0.3,1 1,1')
   CustomEase.create('avraInOut', 'M0,0 C0.76,0 0.24,1 1,1')

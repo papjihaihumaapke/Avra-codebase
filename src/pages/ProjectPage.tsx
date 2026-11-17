@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { TLink } from '../components/Transition'
-import { coverOf, projects, projectBySlug, type Img } from '../content/work'
+import { blurOf, coverOf, projects, projectBySlug, type Img } from '../content/work'
 import { FinalCta } from '../sections/FinalCta'
 import { NotFound } from './NotFound'
 
@@ -45,7 +45,7 @@ export function ProjectPage() {
     <>
       <article>
         <header className="case-hero on-dark">
-          <div className="case-hero__bg" style={{ backgroundImage: `url(${art.src})` }} aria-hidden="true" />
+          <div className="case-hero__bg" style={{ backgroundImage: `url(${blurOf(art.src)})` }} aria-hidden="true" />
           <div className="case-hero__shade" aria-hidden="true" />
           <div className="case-hero__inner shell">
             <TLink to="/work" className="label case-hero__back">
