@@ -1,4 +1,4 @@
-import type { CSSProperties, ElementType, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { bookHref } from '../content/site'
 import { TLink } from './Transition'
 
@@ -52,53 +52,33 @@ export function BookButton({
   )
 }
 
-/** "01 / SERVICES" */
-export function SectionLabel({ index, children, className = '' }: { index?: string; children: ReactNode; className?: string }) {
-  return (
-    <p className={`label muted ${className}`}>
-      {index && (
-        <>
-          <span>{index}</span>
-          <span aria-hidden="true"> / </span>
-          <span className="sr-only"> — </span>
-        </>
-      )}
-      <span>{children}</span>
-    </p>
-  )
-}
-
 /**
- * Splits content into masked lines that rise into view.
- * `lines` are rendered one per mask; each line can be a string or JSX.
+ * Bulletproof-style pill: a label chip and a separate arrow chip, joined.
+ * `tone="dark"` for use on graphite sections.
  */
-export function MaskLines({
-  as: Tag = 'div',
-  lines,
+export function PillLink({
+  to,
+  children,
+  tone = 'light',
   className = '',
-  delay = 0,
-  hero = false,
-  id,
+  arrow = true,
+  cursor,
 }: {
-  as?: ElementType
-  lines: ReactNode[]
+  to: string
+  children: ReactNode
+  tone?: 'light' | 'dark' | 'solid'
   className?: string
-  delay?: number
-  hero?: boolean
-  id?: string
+  arrow?: boolean
+  cursor?: string
 }) {
   return (
-    <Tag
-      id={id}
-      className={`${hero ? 'hero-rise' : ''} ${className}`}
-      {...(hero ? {} : { 'data-reveal': '' })}
-      style={{ '--d': `${delay}ms` } as CSSProperties}
-    >
-      {lines.map((line, i) => (
-        <span className="mask" key={i}>
-          <span style={{ '--i': i } as CSSProperties}>{line}</span>
+    <TLink to={to} className={`pill pill--${tone} group ${className}`} data-cursor={cursor}>
+      <span className="pill__label">{children}</span>
+      {arrow && (
+        <span className="pill__arrow" aria-hidden="true">
+          <Arrow />
         </span>
-      ))}
-    </Tag>
+      )}
+    </TLink>
   )
 }

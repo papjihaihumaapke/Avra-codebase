@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Local development with the function: `npx netlify dev` (serves Vite + /api/contact together).
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  framework = "#custom"

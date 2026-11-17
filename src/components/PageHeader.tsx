@@ -1,30 +1,60 @@
-import type { CSSProperties, ReactNode } from 'react'
-import { MaskLines, SectionLabel } from './ui'
+import type { ReactNode } from 'react'
 
-/** Top of an inner page: mono label, huge masked headline, optional lead. */
+/**
+ * Inner-page opener, set like the homepage statement: a small label, giant centred
+ * uppercase lines (the first can take the red accent), then an italic serif lead.
+ */
 export function PageHeader({
   label,
   lines,
   lead,
+  accentFirst = true,
   children,
 }: {
   label: string
-  lines: ReactNode[]
+  lines: string[]
   lead?: ReactNode
+  accentFirst?: boolean
   children?: ReactNode
 }) {
   return (
-    <header className="relative pt-[calc(var(--nav-height)+clamp(3rem,10vw,7rem))]">
-      <div className="shell">
-        <SectionLabel>{label}</SectionLabel>
-        <MaskLines as="h1" hero className="t-mega mt-6 max-w-[14ch] md:mt-8" lines={lines} />
-        {lead && (
-          <p className="t-lead muted hero-fade mt-8 max-w-[40rem]" style={{ '--d': '380ms' } as CSSProperties}>
-            {lead}
-          </p>
-        )}
-        {children}
-      </div>
+    <header className="page-head shell">
+      <p className="label page-head__label">{label}</p>
+      <h1 className="page-head__title" data-split="hero">
+        {lines.map((l, i) => (
+          <span key={i} className={`block ${i === 0 && accentFirst ? 'text-signal' : ''}`}>
+            {l}
+          </span>
+        ))}
+      </h1>
+      {lead && (
+        <p className="page-head__lead" data-split="lines">
+          {lead}
+        </p>
+      )}
+      {children}
     </header>
+  )
+}
+
+/** Section opener: label on the left, big uppercase heading. */
+export function SectionHead({
+  label,
+  title,
+  id,
+  className = '',
+}: {
+  label: string
+  title: string
+  id?: string
+  className?: string
+}) {
+  return (
+    <div className={`section-head ${className}`}>
+      <p className="label section-head__label">{label}</p>
+      <h2 id={id} className="section-head__title" data-split="">
+        {title}
+      </h2>
+    </div>
   )
 }

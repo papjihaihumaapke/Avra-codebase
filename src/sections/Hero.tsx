@@ -1,177 +1,128 @@
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { Arrow, BookButton, MaskLines } from '../components/ui'
-import { TLink } from '../components/Transition'
-import { site } from '../content/site'
-import { motionEnabled, prefersReducedMotion } from '../lib/motion'
+import { useEffect, useRef, type CSSProperties } from 'react'
+import { gsap, SplitText } from '../lib/gsap'
+import { introDone } from '../lib/intro'
+import { motionEnabled } from '../lib/motion'
 
-gsap.registerPlugin(ScrollTrigger)
+/** Blurred, slowly crossfading work imagery: colour and movement, never detail. */
+const backdrops = [
+  '/work/dunes-and-scents/art.webp',
+  '/work/social-creative/art.webp',
+  '/work/little-anna/art.webp',
+  '/work/wall-canvas/art.webp',
+  '/work/go-green-mowing/art.webp',
+]
 
-/** Static architectural fallback: shown instantly, and kept if WebGL is unavailable. */
-function FallbackArt() {
-  return (
-    <svg
-      className="absolute inset-0 h-full w-full"
-      viewBox="0 0 1600 1000"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <rect width="1600" height="1000" fill="var(--color-paper)" />
-      {/* long diagonal window shadows */}
-      <g fill="var(--color-graphite)" opacity="0.05">
-        <polygon points="560,0 700,0 1180,1000 1040,1000" />
-        <polygon points="820,0 900,0 1380,1000 1300,1000" />
-        <polygon points="1040,0 1180,0 1660,1000 1520,1000" />
-      </g>
-      {/* floating steps + their cast shadows */}
-      {Array.from({ length: 9 }).map((_, i) => {
-        const x = 880 + i * 72
-        const y = 760 - i * 62
-        return (
-          <g key={i}>
-            <polygon
-              points={`${x + 10},${y + 14} ${x + 96},${y + 14} ${x + 166},${y + 104} ${x + 80},${y + 104}`}
-              fill="var(--color-graphite)"
-              opacity="0.06"
-            />
-            <rect x={x} y={y} width="92" height="14" fill="var(--color-bone)" />
-            <rect x={x} y={y + 14} width="92" height="3" fill="var(--color-shadow)" />
-          </g>
-        )
-      })}
-    </svg>
-  )
-}
-
-function HeroBackdrop() {
-  const sceneRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [ready, setReady] = useState(false)
-  const useVideo = Boolean(site.heroVideo.mp4)
-
-  useEffect(() => {
-    if (useVideo) {
-      const v = videoRef.current
-      if (v && !prefersReducedMotion()) v.play().catch(() => {})
-      return
-    }
-    let dispose: (() => void) | undefined
-    let cancelled = false
-    const start = async () => {
-      if (cancelled || !sceneRef.current) return
-      const mod = await import('./HeroScene')
-      if (cancelled || !sceneRef.current || !mod.webglAvailable()) return
-      dispose = mod.mountHeroScene(sceneRef.current, {
-        reduced: prefersReducedMotion(),
-        onReady: () => setReady(true),
-      })
-    }
-    const ric =
-      (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number })
-        .requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200))
-    const boot = () => ric(() => void start().catch(() => {}), { timeout: 2500 })
-
-    // Desktop: load on idle after the page loads. Phones/tablets: wait for the first
-    // interaction so the 3D scene never competes with first paint and input.
-    const desktop = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches
-    const events = ['pointerdown', 'touchstart', 'scroll', 'keydown', 'wheel'] as const
-    let kicked = false
-    const kick = () => {
-      if (kicked) return
-      kicked = true
-      events.forEach((e) => window.removeEventListener(e, kick))
-      boot()
-    }
-    const onLoad = () => (desktop ? kick() : events.forEach((e) => window.addEventListener(e, kick, { once: true, passive: true })))
-    if (document.readyState === 'complete') onLoad()
-    else window.addEventListener('load', onLoad, { once: true })
-    return () => {
-      cancelled = true
-      window.removeEventListener('load', onLoad)
-      events.forEach((e) => window.removeEventListener(e, kick))
-      dispose?.()
-    }
-  }, [useVideo])
-
-  return (
-    <div className="hero-backdrop absolute inset-0 overflow-hidden" aria-hidden="true">
-      <FallbackArt />
-      {useVideo ? (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={site.heroVideo.poster || undefined}
-        >
-          {site.heroVideo.webm && <source src={site.heroVideo.webm} type="video/webm" />}
-          <source src={site.heroVideo.mp4} type="video/mp4" />
-        </video>
-      ) : (
-        <div
-          ref={sceneRef}
-          className="absolute inset-0 transition-opacity duration-[1600ms] ease-reveal"
-          style={{ opacity: ready ? 1 : 0 }}
-        />
-      )}
-    </div>
-  )
-}
+/** Words are placed on a loose staggered grid, like type set by hand. */
+const words: { text: string; x: string; row: number }[] = [
+  { text: 'Growth', x: '22%', row: 0 },
+  { text: 'that', x: '4%', row: 1 },
+  { text: 'flows', x: '50%', row: 1 },
+  { text: 'without', x: '12%', row: 2 },
+  { text: 'noise', x: '62%', row: 2 },
+]
 
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (!motionEnabled() || !rootRef.current) return
-    const ctx = gsap.context(() => {
-      const st = { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true }
-      gsap.to('.hero-backdrop', { yPercent: 14, ease: 'none', scrollTrigger: st })
-      gsap.to('.hero-content', { yPercent: -10, ease: 'none', scrollTrigger: st })
-    }, rootRef)
-    return () => ctx.revert()
+    const root = rootRef.current
+    if (!root || !motionEnabled()) return
+    let cancelled = false
+    let offMove = () => {}
+    const ctx = gsap.context(() => {})
+
+    // Backdrop crossfade runs straight away (it sits under the preloader).
+    ctx.add(() => {
+      const layers = gsap.utils.toArray<HTMLElement>('.hero__bg', root)
+      gsap.set(layers, { autoAlpha: 0 })
+      gsap.set(layers[0], { autoAlpha: 1 })
+      const tl = gsap.timeline({ repeat: -1 })
+      layers.forEach((layer, i) => {
+        const next = layers[(i + 1) % layers.length]
+        tl.fromTo(layer, { scale: 1.15 }, { scale: 1.35, duration: 6, ease: 'none' }, i * 4.5)
+        tl.to(next, { autoAlpha: 1, duration: 1.6, ease: 'power2.inOut' }, i * 4.5 + 3.4)
+        tl.set(layer, { autoAlpha: 0 }, i * 4.5 + 5.1)
+      })
+    })
+
+    introDone.then(() => {
+      if (cancelled) return
+      ctx.add(() => {
+        const wordEls = gsap.utils.toArray<HTMLElement>('.hero__word', root)
+        const split = SplitText.create(wordEls, { type: 'chars', mask: 'chars' })
+        gsap.set(wordEls, { autoAlpha: 1 })
+        gsap.from(split.chars, {
+          yPercent: 115,
+          duration: 1.3,
+          ease: 'avra',
+          stagger: { each: 0.035, from: 'random' },
+        })
+        gsap.from('.hero__meta', { autoAlpha: 0, y: 16, duration: 1, ease: 'avra', delay: 0.6, stagger: 0.08 })
+
+        // Scroll: words part ways, the backdrop sinks.
+        const st = { trigger: root, start: 'top top', end: 'bottom top', scrub: true }
+        wordEls.forEach((w, i) => {
+          gsap.to(w, { xPercent: i % 2 ? -35 : 35, ease: 'none', scrollTrigger: st })
+        })
+        gsap.to('.hero__bgwrap', { yPercent: 20, ease: 'none', scrollTrigger: st })
+        gsap.to('.hero__words', { opacity: 0.25, ease: 'none', scrollTrigger: st })
+
+        // Pointer: a gentle depth parallax per word.
+        const movers = wordEls.map((w, i) => ({
+          x: gsap.quickTo(w, 'x', { duration: 1.2, ease: 'power3' }),
+          y: gsap.quickTo(w, 'y', { duration: 1.2, ease: 'power3' }),
+          depth: 10 + (i % 3) * 12,
+        }))
+        const onMove = (e: PointerEvent) => {
+          const nx = e.clientX / window.innerWidth - 0.5
+          const ny = e.clientY / window.innerHeight - 0.5
+          movers.forEach((m) => {
+            m.x(nx * m.depth * 2)
+            m.y(ny * m.depth)
+          })
+        }
+        window.addEventListener('pointermove', onMove, { passive: true })
+        offMove = () => window.removeEventListener('pointermove', onMove)
+      })
+    })
+
+    return () => {
+      cancelled = true
+      offMove()
+      ctx.revert()
+    }
   }, [])
 
   return (
-    <section ref={rootRef} id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden">
-      <HeroBackdrop />
-      <div className="hero-content shell relative z-10 flex min-h-[100svh] flex-col justify-end pb-[clamp(2.5rem,8vh,5.5rem)] pt-[calc(var(--nav-height)+3rem)]">
-        <p className="label muted hero-fade mb-6 md:mb-8" style={{ '--d': '80ms' } as CSSProperties}>
-          Marketing studio — Vancouver, BC
+    <section ref={rootRef} id="top" aria-labelledby="hero-title" className="hero on-dark">
+      <div className="hero__bgwrap" aria-hidden="true">
+        {backdrops.map((src, i) => (
+          <div key={src} className="hero__bg" style={{ backgroundImage: `url(${src})`, opacity: i ? 0 : 1 }} />
+        ))}
+        <div className="hero__shade" />
+      </div>
+
+      <h1 id="hero-title" className="hero__words">
+        <span className="sr-only">Growth that flows, without noise. AVRA is a marketing studio in Vancouver, BC.</span>
+        {[0, 1, 2].map((row) => (
+          <span key={row} className="hero__row" aria-hidden="true">
+            {words
+              .filter((w) => w.row === row)
+              .map((w) => (
+                <span key={w.text} className="hero__word" style={{ '--x': w.x } as CSSProperties}>
+                  {w.text}
+                </span>
+              ))}
+          </span>
+        ))}
+      </h1>
+
+      <div className="hero__foot shell">
+        <p className="hero__meta label">Marketing studio · Vancouver, BC</p>
+        <p className="hero__meta label hidden md:block">Brand · Websites · Performance</p>
+        <p className="hero__meta label">
+          <span className="hero__scroll" aria-hidden="true" /> Scroll
         </p>
-        <MaskLines
-          as="h1"
-          id="hero-title"
-          hero
-          className="t-mega max-w-[11ch]"
-          lines={[
-            'Growth that',
-            <>
-              flows<span className="text-signal">.</span>
-            </>,
-          ]}
-        />
-        <div className="grid-12 mt-8 items-end gap-y-8 md:mt-12">
-          <p
-            className="t-lead hero-fade col-span-12 max-w-[34rem] text-graphite md:col-span-6 lg:col-span-5"
-            style={{ '--d': '420ms' } as CSSProperties}
-          >
-            A Vancouver marketing studio for brands ready to rise. Brand, websites and performance marketing, without
-            the noise.
-          </p>
-          <div
-            className="hero-fade col-span-12 flex flex-wrap items-center gap-x-8 gap-y-4 md:col-span-6 md:justify-end lg:col-span-7"
-            style={{ '--d': '540ms' } as CSSProperties}
-          >
-            <BookButton className="btn-lg" />
-            <TLink to="/#work" className="link-arrow text-[1.0625rem]">
-              See our work <Arrow />
-            </TLink>
-          </div>
-        </div>
       </div>
     </section>
   )

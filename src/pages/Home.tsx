@@ -1,29 +1,21 @@
-import { About } from '../sections/About'
 import { Clients } from '../sections/Clients'
-import { FeaturedCase } from '../sections/FeaturedCase'
-import { FinalCta } from '../sections/FinalCta'
+import { FeaturedSlider } from '../sections/FeaturedSlider'
 import { Hero } from '../sections/Hero'
-import { KineticBand } from '../sections/KineticBand'
-import { Manifesto } from '../sections/Manifesto'
-import { Process } from '../sections/Process'
-import { Services } from '../sections/Services'
-import { Why } from '../sections/Why'
-import { Work } from '../sections/Work'
+import { Statement } from '../sections/Statement'
+import { Studio } from '../sections/Studio'
+import { WordWall } from '../sections/WordWall'
+import { WorkStack } from '../sections/WorkStack'
 
 export function Home() {
   return (
     <>
       <Hero />
+      <Statement />
+      <FeaturedSlider />
+      <WorkStack />
+      <Studio />
       <Clients />
-      <Manifesto />
-      <Services />
-      <FeaturedCase />
-      <Process />
-      <Work />
-      <KineticBand />
-      <Why />
-      <About teaser />
-      <FinalCta />
+      <WordWall />
     </>
   )
 }

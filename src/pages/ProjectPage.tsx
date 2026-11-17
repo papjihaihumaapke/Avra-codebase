@@ -1,17 +1,14 @@
-import type { CSSProperties } from 'react'
 import { useParams } from 'react-router-dom'
 import { TLink } from '../components/Transition'
-import { Arrow, MaskLines } from '../components/ui'
-import { Frame } from '../components/WorkCard'
-import { projects, projectBySlug, type Img } from '../content/work'
+import { coverOf, projects, projectBySlug, type Img } from '../content/work'
 import { FinalCta } from '../sections/FinalCta'
 import { NotFound } from './NotFound'
 
-/** Image at its natural ratio on a Bone panel (never cropped). */
+/** Image at its natural ratio on a bone panel (screenshots are never cropped). */
 function Figure({ image, eager = false }: { image: Img; eager?: boolean }) {
   const tall = image.h / image.w > 1.6
   return (
-    <figure className="overflow-hidden rounded-lg bg-bone p-[clamp(0.75rem,3vw,2.5rem)] shadow-[var(--card-shadow)]">
+    <figure className="case-figure" data-reveal="fade">
       <img
         src={image.src}
         alt={image.alt}
@@ -19,7 +16,7 @@ function Figure({ image, eager = false }: { image: Img; eager?: boolean }) {
         height={image.h}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
-        className={`mx-auto h-auto w-auto max-w-full rounded-sm ${tall ? 'max-h-[min(140svh,2400px)]' : 'max-h-[78svh]'}`}
+        className={tall ? 'case-figure__tall' : ''}
       />
     </figure>
   )
@@ -32,94 +29,108 @@ export function ProjectPage() {
 
   const i = projects.indexOf(project)
   const next = projects[(i + 1) % projects.length]
-  const meta = project.facts ?? [
-    { k: 'Client', v: project.client },
-    { k: 'Services', v: project.services },
-    project.year ? { k: 'Year', v: project.status ? `${project.year}, ${project.status.toLowerCase()}` : project.year } : null,
-    project.tools ? { k: 'Tools', v: project.tools } : null,
-  ].filter(Boolean) as { k: string; v: string }[]
+  const art = coverOf(project)
+  const nextArt = coverOf(next)
+  const line = project.tagline
+  const meta =
+    project.facts ??
+    ([
+      { k: 'Client', v: project.client },
+      { k: 'Services', v: project.services },
+      project.year ? { k: 'Year', v: project.status ? `${project.year}, ${project.status.toLowerCase()}` : project.year } : null,
+      project.tools ? { k: 'Tools', v: project.tools } : null,
+    ].filter(Boolean) as { k: string; v: string }[])
 
   return (
     <>
       <article>
-        <header className="pt-[calc(var(--nav-height)+clamp(2.5rem,7vw,5rem))]">
-          <div className="shell">
-            <TLink to="/work" className="link-arrow label muted">
-              <Arrow className="rotate-180" /> All work
+        <header className="case-hero on-dark">
+          <div className="case-hero__bg" style={{ backgroundImage: `url(${art.src})` }} aria-hidden="true" />
+          <div className="case-hero__shade" aria-hidden="true" />
+          <div className="case-hero__inner shell">
+            <TLink to="/work" className="label case-hero__back">
+              ← All work
             </TLink>
-            <p className="label muted mt-10 flex flex-wrap gap-x-3">
-              <span>{project.category}</span>
-              <span aria-hidden="true">/</span>
-              <span>Client work</span>
-            </p>
-            <MaskLines as="h1" hero className="t-display mt-5 max-w-[16ch]" lines={[project.title]} />
-            <p className="t-lead hero-fade mt-6 max-w-[44rem]" style={{ '--d': '300ms' } as CSSProperties}>
-              {project.summary}
-            </p>
-
-            <dl
-              className="hero-fade hairline-t mt-10 grid gap-x-8 gap-y-6 pt-6 sm:grid-cols-2 lg:grid-cols-4"
-              style={{ '--d': '420ms' } as CSSProperties}
-            >
-              {meta.map((m) => (
-                <div key={m.k}>
-                  <dt className="label muted">{m.k}</dt>
-                  <dd className="mt-2 leading-snug">{m.v}</dd>
-                </div>
-              ))}
-            </dl>
-            {project.url && (
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary hero-fade mt-8"
-                style={{ '--d': '500ms' } as CSSProperties}
-              >
-                Visit live site <Arrow className="-rotate-45" />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
+            <h1 className="case-hero__title" data-split="hero">
+              {project.title}
+            </h1>
+            {line && (
+              <p className="case-hero__line">
+                {line[0]} <em>{line[1]}</em>
+              </p>
             )}
-          </div>
-          <div className="shell mt-12 md:mt-16">
-            <div className="hero-fade" style={{ '--d': '360ms' } as CSSProperties}>
-              <Figure image={project.cover} eager />
+            <div className="case-hero__card">
+              <img src={art.src} alt={art.alt} width={art.w} height={art.h} fetchPriority="high" decoding="async" />
+            </div>
+            <div className="case-hero__foot">
+              <p className="label">{project.category}</p>
+              <p className="label opacity-70">{project.services}</p>
+              <p className="label">
+                {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+              </p>
             </div>
           </div>
         </header>
 
-        <div className="shell section space-y-[clamp(4rem,9vw,7rem)]">
-          {project.sections.map((s) => (
-            <section key={s.heading} className="grid-12 gap-y-6" aria-label={s.heading}>
-              <h2 className="t-title col-span-12 md:col-span-4" data-reveal="fade">
-                {s.heading}
-              </h2>
-              <div className="col-span-12 space-y-5 md:col-span-8" data-reveal="fade" style={{ '--d': '80ms' } as CSSProperties}>
-                {s.body.map((p, k) => (
-                  <p key={k} className={k === 0 ? 't-lead' : 'muted max-w-[60ch] text-[1.0625rem] leading-relaxed'}>
+        <section className="case-intro shell" aria-label="Overview">
+          <p className="case-intro__summary" data-split="lines">
+            {project.summary}
+          </p>
+          <dl className="case-facts">
+            {meta.map((m) => (
+              <div key={m.k}>
+                <dt className="label opacity-60">{m.k}</dt>
+                <dd>{m.v}</dd>
+              </div>
+            ))}
+          </dl>
+          {project.url && (
+            <a href={project.url} target="_blank" rel="noopener noreferrer" className="pill pill--light group mt-10">
+              <span className="pill__label">Visit live site</span>
+              <span className="pill__arrow" aria-hidden="true">
+                ↗
+              </span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          )}
+        </section>
+
+        {project.art && (
+          <div className="shell">
+            <Figure image={project.cover} eager />
+          </div>
+        )}
+
+        <div className="case-body shell">
+          {project.sections.map((s, k) => (
+            <section key={s.heading} className="case-sec" aria-label={s.heading}>
+              <div className="case-sec__head">
+                <span className="label opacity-50">{String(k + 1).padStart(2, '0')}</span>
+                <h2 className="case-sec__title" data-split="">
+                  {s.heading}
+                </h2>
+              </div>
+              <div className="case-sec__body">
+                {s.body.map((p, j) => (
+                  <p key={j} className={j === 0 ? 'case-sec__lead' : 'case-sec__p'}>
                     {p}
                   </p>
                 ))}
                 {s.list && (
-                  <ul className="max-w-[60ch]">
+                  <ul className="case-list">
                     {s.list.map((x) => (
-                      <li key={x} className="hairline-t py-3 leading-snug">
-                        {x}
-                      </li>
+                      <li key={x}>{x}</li>
                     ))}
                   </ul>
                 )}
                 {s.groups && (
-                  <div className="grid gap-x-[var(--grid-gap)] gap-y-10 lg:grid-cols-2">
+                  <div className="case-groups">
                     {s.groups.map((g) => (
                       <div key={g.title}>
-                        <h3 className="text-[1.25rem] font-semibold tracking-[-0.02em]">{g.title}</h3>
-                        <ul className="mt-3">
+                        <h3 className="case-groups__title">{g.title}</h3>
+                        <ul className="case-list">
                           {g.items.map((x) => (
-                            <li key={x} className="hairline-t muted flex gap-3 py-3 leading-snug">
-                              <span aria-hidden="true" className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-graphite" />
-                              <span>{x}</span>
-                            </li>
+                            <li key={x}>{x}</li>
                           ))}
                         </ul>
                       </div>
@@ -127,12 +138,12 @@ export function ProjectPage() {
                   </div>
                 )}
                 {s.table && (
-                  <div className="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0">
-                    <table className="w-full min-w-[36rem] border-collapse text-left">
+                  <div className="case-table">
+                    <table>
                       <thead>
                         <tr>
                           {s.table.head.map((h) => (
-                            <th key={h} scope="col" className="label muted border-b border-shadow pb-3 pr-6 font-medium">
+                            <th key={h} scope="col" className="label">
                               {h}
                             </th>
                           ))}
@@ -140,14 +151,10 @@ export function ProjectPage() {
                       </thead>
                       <tbody>
                         {s.table.rows.map((r) => (
-                          <tr key={r[0]} className="border-b border-shadow align-top">
-                            <th scope="row" className="py-4 pr-6 font-semibold">
-                              {r[0]}
-                            </th>
-                            <td className="whitespace-nowrap py-4 pr-6 font-mono text-[0.8125rem] uppercase tracking-[0.08em] text-stone-ink">
-                              {r[1]}
-                            </td>
-                            <td className="muted py-4 leading-snug">{r[2]}</td>
+                          <tr key={r[0]}>
+                            <th scope="row">{r[0]}</th>
+                            <td className="label">{r[1]}</td>
+                            <td>{r[2]}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -155,21 +162,23 @@ export function ProjectPage() {
                   </div>
                 )}
               </div>
-              {s.images?.map((im) => (
-                <div key={im.src} className="col-span-12 mt-4" data-reveal="fade">
-                  <Figure image={im} />
+              {s.images && s.images.length > 0 && (
+                <div className="case-sec__images">
+                  {s.images.map((im) => (
+                    <Figure key={im.src} image={im} />
+                  ))}
                 </div>
-              ))}
+              )}
             </section>
           ))}
 
           {project.gallery && project.gallery.length > 0 && (
-            <section aria-label="Gallery" className="hairline-t pt-6">
-              <p className="label muted">Gallery</p>
-              <ul className="mt-8 grid grid-cols-1 gap-[var(--grid-gap)] sm:grid-cols-2 lg:grid-cols-3">
-                {project.gallery.map((im, k) => (
-                  <li key={im.src} data-reveal="fade" style={{ '--d': `${(k % 3) * 60}ms` } as CSSProperties}>
-                    <Frame image={im} ratio="aspect-square" />
+            <section aria-label="Gallery" className="case-gallery">
+              <p className="label opacity-60">Gallery</p>
+              <ul>
+                {project.gallery.map((im) => (
+                  <li key={im.src} data-reveal="fade">
+                    <img src={im.src} alt={im.alt} width={im.w} height={im.h} loading="lazy" decoding="async" data-zoom="" />
                   </li>
                 ))}
               </ul>
@@ -177,19 +186,18 @@ export function ProjectPage() {
           )}
         </div>
 
-        <nav aria-label="Next project" className="shell pb-[var(--section-space)]">
-          <TLink to={`/work/${next.slug}`} className="group hairline-t grid-12 items-center gap-y-6 pt-6">
-            <div className="col-span-12 md:col-span-7">
-              <p className="label muted">Next project</p>
-              <p className="t-display mt-4 flex items-center gap-4">
-                {next.title}
-                <Arrow className="h-[0.4em] w-[0.4em] transition-transform duration-300 group-hover:translate-x-2" />
-              </p>
-              <p className="muted mt-3">{next.services}</p>
-            </div>
-            <div className="col-span-12 md:col-span-4 md:col-start-9">
-              <Frame image={next.cover} />
-            </div>
+        <nav aria-label="Next project">
+          <TLink to={`/work/${next.slug}`} className="case-next on-dark" data-cursor="Next">
+            <img src={nextArt.src} alt="" width={nextArt.w} height={nextArt.h} loading="lazy" className="case-next__bg" data-parallax="0.2" />
+            <span className="case-next__inner shell">
+              <span className="label opacity-70">Next project</span>
+              <span className="case-next__title">{next.title}</span>
+              {next.tagline && (
+                <span className="case-next__line">
+                  {next.tagline[0]} <em>{next.tagline[1]}</em>
+                </span>
+              )}
+            </span>
           </TLink>
         </nav>
       </article>

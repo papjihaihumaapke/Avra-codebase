@@ -11,14 +11,14 @@ export const site = {
   city: 'Vancouver',
   region: 'BC',
   country: 'CA',
-  /** TODO: production domain, no trailing slash. Used for canonical + Open Graph URLs. */
-  url: 'https://www.example.com',
-  /** TODO: e.g. 'hello@yourdomain.com'. Empty shows an [Email address] placeholder. */
-  email: '',
+  /** Production domain, no trailing slash. Used for canonical + Open Graph URLs and the sitemap. */
+  url: 'https://thinkavra.com',
+  /** Public contact email (contact page, footer, closing CTA). */
+  email: 'hello@thinkavra.com',
   /** TODO: Calendly / Cal.com link. Empty makes every "Book a call" go to /contact#book. */
   bookingUrl: '',
-  /** TODO: form backend (Formspree, Basin, your API). Receives a JSON POST. */
-  formEndpoint: '',
+  /** Contact form backend: Netlify Function that emails via Resend (netlify/functions/contact.mts). */
+  formEndpoint: '/api/contact',
   social: {
     /** TODO */
     instagram: '',

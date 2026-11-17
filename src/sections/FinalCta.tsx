@@ -1,27 +1,26 @@
-import { BookButton, MaskLines } from '../components/ui'
-import { TLink } from '../components/Transition'
-import { site } from '../content/site'
+import { PillLink } from '../components/ui'
+import { bookHref, site } from '../content/site'
 
+/** Closing band on inner pages: giant centred question, italic aside, one action. */
 export function FinalCta() {
-  const emailHref = site.email ? `mailto:${site.email}` : '/contact'
   return (
-    <section aria-labelledby="cta-title" className="on-dark relative z-10 bg-graphite text-paper">
-      <div className="shell py-[clamp(6rem,14vw,12rem)]">
-        <p className="label muted">Next step</p>
-        <MaskLines
-          as="h2"
-          id="cta-title"
-          className="t-display mt-8 max-w-[13ch]"
-          lines={['Ready to grow', 'without the noise?']}
-        />
-        <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6 md:mt-16">
-          <BookButton variant="inverse" size="lg" />
-          <TLink
-            to={emailHref}
-            className="label underline decoration-stone underline-offset-[6px] transition-colors duration-200 hover:decoration-paper"
-          >
-            {site.email || '[Email address]'}
-          </TLink>
+    <section aria-labelledby="cta-title" className="cta on-dark">
+      <div className="cta__bg" aria-hidden="true" data-parallax="0.2" />
+      <div className="shell relative">
+        <p className="label opacity-60">Next step</p>
+        <h2 id="cta-title" className="cta__title" data-split="">
+          Ready to grow
+          <br />
+          without the noise?
+        </h2>
+        <p className="cta__aside">A short call about where your business is and where it could go.</p>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <PillLink to={bookHref} tone="solid">
+            Book a call
+          </PillLink>
+          <PillLink to={site.email ? `mailto:${site.email}` : '/contact'} tone="dark">
+            {site.email ? 'Email us' : 'Send a message'}
+          </PillLink>
         </div>
       </div>
     </section>

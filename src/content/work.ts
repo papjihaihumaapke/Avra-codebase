@@ -30,6 +30,10 @@ export type Project = {
   /** Overrides the auto-generated facts row on the project page. */
   facts?: { k: string; v: string }[]
   cover: Img
+  /** Art-directed 3:4 cover (homepage, work index, case study hero). Falls back to `cover`. */
+  art?: Img
+  /** Two-part italic line shown with the title, e.g. ['Couture,', 'online']. */
+  tagline?: [string, string]
   sections: Section[]
   gallery?: Img[]
   featured?: boolean
@@ -301,7 +305,7 @@ export const projects: Project[] = [
   {
     slug: 'social-creative',
     title: 'Social & ad creative',
-    client: 'Restaurant, creative agency and dessert brand',
+    client: 'Restaurant and dessert brand',
     category: 'Social & ads',
     type: 'Client',
     summary: 'Social posts, carousel covers and promo ads made to stop the scroll and say one thing clearly.',
@@ -314,7 +318,6 @@ export const projects: Project[] = [
       },
     ],
     gallery: [
-      sq('social-creative', 'g-2', '“What is on the menu?” agency post'),
       sq('social-creative', 'g-3', 'Behind the scenes carousel cover'),
       sq('social-creative', 'g-4', 'Brownie brand ad: “Gone in 20 minutes”'),
     ],
@@ -414,6 +417,48 @@ export const projects: Project[] = [
   },
 
 ]
+
+/* Art-directed covers (public/work/<slug>/art.webp, 1086×1448) and taglines. */
+const art = (slug: string, alt: string): Img => img(slug, 'art', 1086, 1448, alt)
+const extras: Record<string, Pick<Project, 'art' | 'tagline'>> = {
+  'alps-annie-ling': {
+    art: art('alps-annie-ling', 'A black zip-neck jacket draped over a brushed-steel chair in a concrete studio'),
+    tagline: ['Couture,', 'online'],
+  },
+  'go-green-mowing': {
+    art: art('go-green-mowing', 'A green ride-on mower on a freshly striped lawn at golden hour'),
+    tagline: ['Friendly by', 'nature'],
+  },
+  'little-anna': {
+    art: art('little-anna', 'Patterned pastry box with strawberry tarts and cream puffs on cobalt blue'),
+    tagline: ['A little', 'sweetness'],
+  },
+  'desert-fox': { tagline: ['Made for the', 'festival'] },
+  'dunes-and-scents': {
+    art: art('dunes-and-scents', 'Five jewel-toned perfume bottles on travertine steps in front of desert dunes'),
+    tagline: ['Five scents,', 'one wardrobe'],
+  },
+  'wall-canvas': {
+    art: art('wall-canvas', 'A pink neon line sculpture glowing on a dark brick wall above a sofa'),
+    tagline: ['Good vibes,', 'lit up'],
+  },
+  'social-creative': {
+    art: art('social-creative', 'Butter chicken in a copper bowl beside stacked brownies on bright yellow'),
+    tagline: ['Stop the', 'scroll'],
+  },
+  sitetask: {
+    art: art('sitetask', 'A hand holding a phone with a checked-off task list at a fuel station at dusk'),
+    tagline: ['Eleven stations,', 'one list'],
+  },
+  tuniff: {
+    art: art('tuniff', 'A woman in a salon chair with three translucent hairstyles floating around her'),
+    tagline: ['Try it before', 'the cut'],
+  },
+}
+for (const p of projects) Object.assign(p, extras[p.slug])
+
+/** The image to lead with for a project: its art-directed cover, else its first image. */
+export const coverOf = (p: Project): Img => p.art ?? p.cover
 
 export const featuredProjects = projects.filter((p) => p.featured)
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug)

@@ -19,6 +19,7 @@
 
   /* ---- Type ---- */
   --font-sans: "Inter Tight", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --text-mega: clamp(3.5rem, 12.6vw, 10rem);     /* hero, up to 160px */
@@ -29,11 +30,11 @@
   --text-label: 0.75rem;                          /* 12px mono labels */
   --text-label-lg: 0.875rem;                      /* 14px mono labels */
 
-  --tracking-display: -0.04em;
+  --tracking-display: -0.055em;
   --tracking-tight: -0.02em;
   --tracking-label: 0.14em;
 
-  --leading-display: 0.95;
+  --leading-display: 0.86;
   --leading-tight: 1;
   --leading-body: 1.55;
 
@@ -68,10 +69,11 @@
   --gsap-ease-move: power3.inOut;
 
   /* ---- Atmosphere ---- */
-  --grain-opacity: 0.055;
-  --band-light: rgb(255 255 255 / 0.55);
-  --band-shade: rgb(17 17 17 / 0.035);
-  --band-drift-duration: 48s;
+  --grain-opacity: 0.045;
+
+  /* ---- Display type (uppercase grotesk, set tight) ---- */
+  --display-weight: 600;
+  --ghost: #d3d2ce;            /* inactive giant type on paper */
 
   /* ---- Surfaces ---- */
   --card-shadow: 0 1px 0 rgb(17 17 17 / 0.04), 0 18px 40px -24px rgb(17 17 17 / 0.22);

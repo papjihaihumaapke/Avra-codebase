@@ -1,7 +1,7 @@
 # AVRA — Growth that flows.
 
 Marketing site for AVRA, a boutique marketing studio in Vancouver, BC.
-React 19 + Vite + TypeScript + Tailwind CSS v4 + GSAP (ScrollTrigger) + Three.js (lazy-loaded hero).
+React 19 + Vite + TypeScript + Tailwind CSS v4 + GSAP (ScrollTrigger, SplitText, CustomEase) + Lenis + Embla Carousel.
 
 ```bash
 npm install
@@ -17,8 +17,9 @@ npm run preview   # serve dist/
 | **Design tokens** (colour, type, spacing, radius, motion) | `src/styles/tokens.css` |
 | Copy, links, placeholders, config | `src/content/site.ts` |
 | Global styles, reveal system, manifesto, stair line, grain/light bands | `src/index.css` |
-| Hero 3D scene (floating staircase, low sun, drifting camera) | `src/sections/HeroScene.ts` |
-| Kinetic manifesto (GSAP ScrollTrigger) | `src/sections/Manifesto.tsx` |
+| Homepage copy (slide taglines, work index names, studio strip, word wall) | `src/content/home.ts` |
+| GSAP plugin registration + house eases | `src/lib/gsap.ts` |
+| Preloader / custom cursor | `src/components/Preloader.tsx`, `src/components/Cursor.tsx` |
 | Page transition (paper wipe) + internal links | `src/components/Transition.tsx` |
 | Prerender, JSON-LD LocalBusiness schema, sitemap, robots | `scripts/prerender.mjs` |
 
@@ -27,8 +28,11 @@ npm run preview   # serve dist/
 In `src/content/site.ts`:
 - `url`: production domain (canonical, Open Graph, sitemap, schema).
 - `email`, `bookingUrl` (Calendly/Cal.com), `social.instagram`, `social.linkedin`.
-- `formEndpoint`: the contact form POSTs JSON here (Formspree, Basin, your API). **Until it is set, submissions show the success message but are not sent anywhere** (a console warning says so).
-- `heroVideo.mp4` / `webm` / `poster`: set these to use the brand reel instead of the Three.js scene (put files in `public/media/`, compress to roughly 2–4 MB, no audio track).
+- Contact form: posts to `/api/contact`, a Netlify Function (`netlify/functions/contact.mts`) that emails each enquiry through **Resend**. In Netlify → Site configuration → Environment variables, set:
+  - `RESEND_API_KEY`: your Resend API key (keep it secret; it is never sent to the browser)
+  - `CONTACT_TO` (optional): inbox(es) for enquiries, comma-separated; defaults to `mohammadhilalmalik@gmail.com`
+  - `CONTACT_FROM` (optional): sender on the verified `thinkavra.com` domain; defaults to `AVRA Website <website@thinkavra.com>`
+  Replies go straight to the person who filled in the form. To test locally, put the same values in `.env` and run `npx netlify dev` (plain `npm run dev` has no `/api`).
 - `work`, `founders`: real case studies, roles, bios, photos. Bracketed text like `[Result]` is placeholder.
 - `contactOptions.budgets`: your real ranges.
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Arrow, MaskLines, SectionLabel } from '../components/ui'
+import { PageHeader } from '../components/PageHeader'
+import { Arrow } from '../components/ui'
 import { contactOptions, site } from '../content/site'
 
 type Errors = Partial<Record<'name' | 'email' | 'need' | 'message', string>>
@@ -86,23 +87,13 @@ export function Contact() {
 
   return (
     <>
-      <section aria-labelledby="contact-title" className="relative pt-[calc(var(--nav-height)+clamp(3rem,10vw,8rem))]">
-        <div className="shell">
-          <SectionLabel>Contact</SectionLabel>
-          <MaskLines
-            as="h1"
-            id="contact-title"
-            hero
-            className="t-mega mt-6 max-w-[12ch] md:mt-8"
-            lines={['Let’s talk', 'about growth.']}
-          />
-          <p className="t-lead muted hero-fade mt-8 max-w-[38rem]">
-            Tell us a little about your business and what you need. We reply within two working days.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        label="Contact"
+        lines={['Let’s talk', 'about growth.']}
+        lead="Tell us a little about your business and what you need. We reply within two working days."
+      />
 
-      <section aria-label="Enquiry form and booking" className="section relative pt-16 md:pt-24">
+      <section aria-label="Enquiry form and booking" className="contact-body">
         <div className="shell grid-12 gap-y-16">
           <div className="col-span-12 lg:col-span-7">
             {status === 'sent' ? (
@@ -110,10 +101,10 @@ export function Contact() {
                 ref={successRef}
                 tabIndex={-1}
                 role="status"
-                className="rounded-lg bg-bone p-8 shadow-[var(--card-shadow)] md:p-12"
+                className="contact-done"
               >
-                <p className="label muted">Message received</p>
-                <p className="t-headline mt-6">Thank you.</p>
+                <p className="label opacity-60">Message received</p>
+                <p className="contact-done__title">Thank you.</p>
                 <p className="t-lead mt-4 max-w-[34ch]">
                   We have your note and will reply within two working days.
                 </p>
@@ -130,13 +121,13 @@ export function Contact() {
               </div>
             ) : (
               <form ref={formRef} noValidate onSubmit={onSubmit} className="space-y-8" aria-describedby="form-note">
-                <p id="form-note" className="label muted">
+                <p id="form-note" className="label opacity-60">
                   Fields marked * are required
                 </p>
 
                 <div className="grid gap-8 md:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="mb-2 block font-medium">
+                    <label htmlFor="name" className="field-label">
                       Name *
                     </label>
                     <input
@@ -152,7 +143,7 @@ export function Contact() {
                     <FieldError id="name-error" msg={errors.name} />
                   </div>
                   <div>
-                    <label htmlFor="email" className="mb-2 block font-medium">
+                    <label htmlFor="email" className="field-label">
                       Email *
                     </label>
                     <input
@@ -171,20 +162,17 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="business" className="mb-2 block font-medium">
+                  <label htmlFor="business" className="field-label">
                     Business
                   </label>
                   <input id="business" name="business" type="text" autoComplete="organization" className="field" />
                 </div>
 
                 <fieldset aria-describedby={errors.need ? 'need-error' : undefined}>
-                  <legend className="mb-3 font-medium">What do you need? *</legend>
+                  <legend className="field-label">What do you need? *</legend>
                   <div className="flex flex-wrap gap-2.5">
                     {contactOptions.needs.map((n) => (
-                      <label
-                        key={n}
-                        className="cursor-pointer rounded-md border border-shadow bg-bone px-4 py-3 text-[0.9375rem] font-medium transition-colors duration-200 hover:border-stone has-[:checked]:border-graphite has-[:checked]:bg-graphite has-[:checked]:text-paper has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-graphite"
-                      >
+                      <label key={n} className="chip chip--radio">
                         <input type="radio" name="need" value={n} className="sr-only" />
                         {n}
                       </label>
@@ -194,7 +182,7 @@ export function Contact() {
                 </fieldset>
 
                 <div>
-                  <label htmlFor="budget" className="mb-2 block font-medium">
+                  <label htmlFor="budget" className="field-label">
                     Budget range
                   </label>
                   <div className="relative">
@@ -221,7 +209,7 @@ export function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="mb-2 block font-medium">
+                  <label htmlFor="message" className="field-label">
                     Message *
                   </label>
                   <textarea
@@ -246,8 +234,11 @@ export function Contact() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-6 pt-2">
-                  <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'sending'}>
-                    {status === 'sending' ? 'Sending…' : 'Send message'}
+                  <button type="submit" className="pill pill--ink group" disabled={status === 'sending'}>
+                    <span className="pill__label">{status === 'sending' ? 'Sending…' : 'Send message'}</span>
+                    <span className="pill__arrow" aria-hidden="true">
+                      <Arrow />
+                    </span>
                   </button>
                   <p aria-live="polite" className="text-sm font-medium">
                     {status === 'error' && 'Something went wrong. Please try again, or email us directly.'}
@@ -258,17 +249,20 @@ export function Contact() {
           </div>
 
           <aside id="book" aria-labelledby="book-title" className="col-span-12 lg:col-span-4 lg:col-start-9">
-            <div className="hairline-t pt-6">
-              <p className="label muted">Prefer to talk?</p>
-              <h2 id="book-title" className="t-title mt-4">
+            <div className="contact-aside__block">
+              <p className="label opacity-60">Prefer to talk?</p>
+              <h2 id="book-title" className="contact-aside__title">
                 Book a 30-minute call.
               </h2>
               <p className="muted mt-3 max-w-[32ch]">
                 A short, no-pressure conversation about where your business is and where it could go.
               </p>
               {site.bookingUrl ? (
-                <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-6">
-                  Book a call <Arrow />
+                <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer" className="pill pill--ink group mt-6">
+                  <span className="pill__label">Book a call</span>
+                  <span className="pill__arrow" aria-hidden="true">
+                    <Arrow />
+                  </span>
                 </a>
               ) : (
                 <p className="mt-6 inline-block rounded-md border border-dashed border-stone px-4 py-3 font-mono text-sm">
@@ -276,8 +270,8 @@ export function Contact() {
                 </p>
               )}
             </div>
-            <div className="hairline-t mt-12 pt-6">
-              <p className="label muted">Email</p>
+            <div className="contact-aside__block mt-12">
+              <p className="label opacity-60">Email</p>
               {site.email ? (
                 <a href={`mailto:${site.email}`} className="mt-3 inline-block text-lg font-medium underline underline-offset-4">
                   {site.email}
@@ -285,7 +279,7 @@ export function Contact() {
               ) : (
                 <p className="mt-3 font-mono text-sm">[Email address]</p>
               )}
-              <p className="label muted mt-10">Studio</p>
+              <p className="label opacity-60 mt-10">Studio</p>
               <p className="mt-3">Vancouver, BC</p>
             </div>
           </aside>

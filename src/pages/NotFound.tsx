@@ -1,14 +1,17 @@
-import { Arrow, MaskLines, SectionLabel } from '../components/ui'
-import { TLink } from '../components/Transition'
+import { PillLink } from '../components/ui'
 
 export function NotFound() {
   return (
-    <section aria-labelledby="nf-title" className="shell flex min-h-[80svh] flex-col justify-end pb-24 pt-40">
-      <SectionLabel index="404">Not found</SectionLabel>
-      <MaskLines as="h1" id="nf-title" hero className="t-mega mt-6" lines={['Wrong step.']} />
-      <TLink to="/" className="link-arrow mt-10 text-lg">
-        Back to the start <Arrow />
-      </TLink>
+    <section aria-labelledby="nf-title" className="page-head shell min-h-[90svh] justify-center">
+      <p className="label page-head__label">404 · Not found</p>
+      <h1 id="nf-title" className="page-head__title" data-split="hero">
+        <span className="block text-signal">Wrong</span>
+        <span className="block">step.</span>
+      </h1>
+      <p className="page-head__lead">This page doesn’t exist, or it moved.</p>
+      <PillLink to="/" className="mt-10">
+        Back to the start
+      </PillLink>
     </section>
   )
 }

@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Atmosphere } from './components/Atmosphere'
+import { Cursor } from './components/Cursor'
+import { Preloader } from './components/Preloader'
 import { Footer } from './components/Footer'
 import { Nav } from './components/Nav'
 import { TransitionProvider } from './components/Transition'
 import { metaFor, notFoundMeta } from './content/meta'
 import { motionEnabled } from './lib/motion'
 import { startSmoothScroll } from './lib/smooth'
+import { usePageMotion } from './lib/usePageMotion'
 import { useRevealObserver } from './lib/useRevealObserver'
 import { AboutPage } from './pages/AboutPage'
 import { Contact } from './pages/Contact'
@@ -32,11 +35,14 @@ function useSmoothScroll() {
 
 function Shell() {
   useRevealObserver()
+  usePageMotion()
   useRouteMeta()
   useSmoothScroll()
   return (
     <>
+      <Preloader />
       <Atmosphere />
+      <Cursor />
       <Nav />
       <main id="main" tabIndex={-1} className="relative z-10 outline-none">
         <Routes>

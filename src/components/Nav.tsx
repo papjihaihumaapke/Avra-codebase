@@ -5,14 +5,20 @@ import { TLink } from './Transition'
 import { lockScroll } from '../lib/smooth'
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
+    // Slide away while scrolling down, come back on any scroll up.
+    let lastY = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      if (Math.abs(y - lastY) < 6) return
+      setHidden(y > lastY && y > 160)
+      lastY = y
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -59,50 +65,43 @@ export function Nav() {
   }, [open])
 
   const close = () => setOpen(false)
-  const solid = scrolled && !open
-
+  const state = `${hidden && !open ? 'is-hidden' : ''} ${open ? 'is-open' : ''}`
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ease-move ${
-        solid ? 'border-b border-shadow bg-paper' : 'border-b border-transparent bg-transparent'
-      }`}
-    >
+    <>
       <a
         href="#main"
-        className="btn btn-primary sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60]"
+        className="btn btn-primary sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]"
       >
         Skip to content
       </a>
+    {/* Logo lives outside the header so its difference blend reads against the page (white on dark, black on light). */}
+    <TLink to="/" className={`nav-logo ${state}`} aria-label="AVRA, home" onClick={close}>
+      <Logo inverse className="w-[92px] md:w-[108px]" />
+    </TLink>
+    <header className={`nav ${state}`}>
       <nav aria-label="Primary" className="shell flex h-[var(--nav-height)] items-center justify-between gap-6">
-        <TLink to="/" className="relative z-[61] shrink-0" aria-label="AVRA, home" onClick={close}>
-          <Logo className="w-[96px] md:w-[112px]" />
-        </TLink>
+        <span className="w-[92px] md:w-[108px]" aria-hidden="true" />
 
-        <ul className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((l) => (
-            <li key={l.href}>
-              <TLink
-                to={l.href}
-                className="text-[0.9375rem] font-medium tracking-tight decoration-1 underline-offset-[6px] transition-colors duration-200 hover:underline"
-              >
-                {l.label}
-              </TLink>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-3">
-          <BookButton className="hidden sm:inline-flex" />
+        <div className="flex items-center gap-2">
+          <ul className="hidden items-center gap-2 lg:flex">
+            {navLinks.map((l) => (
+              <li key={l.href}>
+                <TLink to={l.href} className="nav__pill">
+                  {l.label}
+                </TLink>
+              </li>
+            ))}
+          </ul>
           <button
             ref={toggleRef}
             type="button"
-            className="relative z-[61] inline-flex h-11 w-11 items-center justify-center rounded-md lg:hidden"
+            className="nav__pill relative z-[61] inline-flex h-11 w-11 items-center justify-center lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((o) => !o)}
           >
-            <span className="relative block h-3 w-6" aria-hidden="true">
+            <span className="nav__burger relative block h-3 w-6" aria-hidden="true">
               <span
                 className={`absolute left-0 h-px w-6 bg-graphite transition-transform duration-300 ease-move ${
                   open ? 'top-1.5 rotate-45' : 'top-0'
@@ -151,5 +150,6 @@ export function Nav() {
         </div>
       </div>
     </header>
+    </>
   )
 }

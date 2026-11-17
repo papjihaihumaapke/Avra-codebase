@@ -38,8 +38,13 @@
         try {
           if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             d.classList.add('motion-ok')
+            try {
+              if (sessionStorage.getItem('avra-seen')) d.classList.add('no-preload')
+            } catch (e) {
+              d.classList.add('no-preload')
+            }
             setTimeout(function () {
-              if (!window.__avraReady) d.classList.remove('motion-ok')
+              if (!window.__avraReady) d.classList.remove('motion-ok'), d.classList.add('no-preload')
             }, 4000)
           }
         } catch (e) {}
