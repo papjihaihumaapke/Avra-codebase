@@ -6,7 +6,7 @@ import { motionEnabled } from '../lib/motion'
 /** Blurred, slowly crossfading work imagery: colour and movement, never detail. */
 const backdrops = [
   '/work/dunes-and-scents/art-blur.webp',
-  '/work/social-creative/art-blur.webp',
+  '/work/fit-and-flex/art-blur.webp',
   '/work/little-anna/art-blur.webp',
   '/work/wall-canvas/art-blur.webp',
   '/work/go-green-mowing/art-blur.webp',

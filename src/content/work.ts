@@ -49,7 +49,87 @@ const sq = (slug: string, file: string, alt: string) => img(slug, file, 512, 512
 
 export const categories: Category[] = ['Websites', 'Brand identity', 'Social & ads', 'Product & UX']
 
+const ff = (file: string, alt: string) => img('fit-and-flex', file, 1086, 1448, alt)
+
 export const projects: Project[] = [
+  /* ----------------------------------------------------------------- Highlight */
+  {
+    slug: 'fit-and-flex',
+    title: 'Fit & Flex',
+    client: 'Fit & Flex, a granola, oats and muesli brand by Niva Nutrifood',
+    category: 'Social & ads',
+    type: 'Client',
+    featured: true,
+    year: '2026',
+    summary:
+      'Bilingual launch creative and a quick-commerce ads strategy for a granola brand arriving in Saudi Arabia, where almost nobody knew its name yet.',
+    services: 'Launch creative · Arabic & English ads · noon Minutes ads strategy',
+    facts: [
+      { k: 'Client', v: 'Fit & Flex by Niva Nutrifood' },
+      { k: 'Services', v: 'Launch campaign creative, bilingual social and marketplace ads, noon Minutes ads audit and strategy' },
+      { k: 'Market', v: 'Saudi Arabia, on noon Minutes quick commerce' },
+      { k: 'Languages', v: 'English and Arabic' },
+    ],
+    cover: ff('launch', 'Fit & Flex Mixed Fruit and Mango Coconut granola packs with the Riyadh skyline: “Now in Saudi Arabia”'),
+    sections: [
+      {
+        heading: 'The brief',
+        body: [
+          'Fit & Flex makes baked granola, power oats and muesli: oat-rich, low in sugar, with real fruit and nuts. The brand was new to Saudi Arabia and sold on noon Minutes, where shoppers order on their phones and expect delivery in minutes.',
+          'On the shelf it sat beside Nestlé Fitness, Kellogg’s and local favourite Hanaa at the same price, with none of their name recognition. Few searches used the brand name, so every ad had to introduce the brand and sell the bag in the same moment.',
+        ],
+        images: [ff('range', 'The full Fit & Flex range on stone plinths: oats, granolas, puffs and chips')],
+      },
+      {
+        heading: 'A better start, in two languages',
+        body: [
+          'We built a bilingual creative system around the moment people actually eat granola: breakfast. Every piece pairs one short English line with its Arabic counterpart, puts the pack front and centre, and sets it in warm Saudi morning light.',
+          'Each ad carries one claim from the pack (a better start, whole grains, real nuts, two flavours) so it still reads at thumbnail size on a phone.',
+        ],
+        images: [
+          ff('better-start', 'A man in a shemagh eating granola at a sunlit kitchen counter: “A better start, every morning”'),
+          ff('breakfast', 'Granola bowl with berries beside a Happy Berries pack: “Breakfast that keeps up with you”'),
+          ff('two-flavours', 'Happy Berries and Mango Coconut granola with fresh fruit: “Two flavours. One healthy start.”'),
+          ff('whole-grains', 'Close-up of granola clusters, almonds and berries: “Whole grains. Real nuts.”'),
+        ],
+      },
+      {
+        heading: 'Fuel for the gym crowd',
+        body: [
+          'The high-protein range (power oats, protein muesli, chips and puffs) needed a different audience: people who train. This set moves from the kitchen to the gym, leads with the protein number in both languages, and shows the snack where it gets eaten: in the gym bag.',
+        ],
+        images: [
+          ff('workouts', 'A smiling man holding granola and high-protein muesli on yellow: “Fuel up for powerful workouts!”'),
+          ff('power-oats', 'A man in a gym holding Power Oats: “Fuel your performance”'),
+          ff('lift', 'High Protein Muesli with a bowl and gym bag: “Fuel before you lift”, 22g protein'),
+          ff('gym-bag', 'Protein chips and puffs in an open gym bag: “Your gym bag snack”, 12g protein'),
+        ],
+      },
+      {
+        heading: 'Built for quick commerce',
+        body: [
+          'noon Minutes is noon’s quick-commerce service in Saudi Arabia, delivering from local dark stores. Shoppers search in a hurry, in Arabic and English, with a lot of misspellings: we counted at least 15 Arabic spellings of “granola”, and they convert very differently.',
+          'We audited the first month of ads and rebuilt the account around what the search data already showed, so each search meets the right product at a bid it can afford.',
+        ],
+        list: [
+          'One catch-all auto campaign split into four: proven granola searches, high-volume Arabic spellings, oats and muesli, and an auto campaign that keeps finding new searches',
+          'Oats and muesli shoppers shown oats and muesli, not granola',
+          'Arabic product titles rewritten to match how people search, each with the product, flavour and one claim',
+          'A first product image that sells on a phone: the pack plus two or three claims in Arabic',
+          'A two-pack bundle to raise the order value against the same cost per click',
+          'A weekly routine: move searches that sell into their own campaign, block the ones that don’t',
+        ],
+        images: [ff('noon-minutes', 'Two Fit & Flex packs beside a delivery bag: “Delivered in minutes”, available on noon Minutes')],
+      },
+      {
+        heading: 'Where it stands',
+        body: [
+          'The new campaign structure and creative rolled out in November 2026. We will add results here once the first full month is in.',
+        ],
+      },
+    ],
+  },
+
   /* ------------------------------------------------------------------ Websites */
   {
     slug: 'alps-annie-ling',
@@ -223,36 +303,6 @@ export const projects: Project[] = [
 
   /* ------------------------------------------------------------ Brand identity */
   {
-    slug: 'desert-fox',
-    title: 'Desert Fox',
-    client: 'Sweet festival desserts',
-    category: 'Brand identity',
-    type: 'Client',
-    featured: true,
-    summary: 'A playful identity for a festival dessert stand: logo suite, apparel, stickers, packaging, the stall itself and the Instagram profile.',
-    services: 'Logo suite · Apparel · Packaging',
-    cover: sq('desert-fox', 'g-5', 'Desert Fox orange tees and cap on sand'),
-    sections: [
-      {
-        heading: 'What we made',
-        body: [
-          'A fox character and hand-drawn wordmark in one warm orange, built as a full logo suite: primary logo, wordmark, badge and horizontal lockup.',
-          'The system rolls out across apparel, stickers and cups, churro packaging, the festival stall and the Instagram profile.',
-        ],
-      },
-    ],
-    gallery: [
-      sq('desert-fox', 'g-1', 'Desert Fox primary logo'),
-      sq('desert-fox', 'g-2', 'Desert Fox wordmark'),
-      sq('desert-fox', 'g-3', 'Desert Fox badge mark'),
-      sq('desert-fox', 'g-4', 'Desert Fox horizontal lockup'),
-      sq('desert-fox', 'g-6', 'Desert Fox stickers and cup'),
-      sq('desert-fox', 'g-7', 'Desert Fox churro packaging'),
-      sq('desert-fox', 'g-8', 'Desert Fox festival stall'),
-      sq('desert-fox', 'g-9', 'Desert Fox Instagram profile'),
-    ],
-  },
-  {
     slug: 'dunes-and-scents',
     title: 'Dunes & Scents',
     client: 'Fragrance house',
@@ -305,21 +355,27 @@ export const projects: Project[] = [
   {
     slug: 'social-creative',
     title: 'Social & ad creative',
-    client: 'Restaurant and dessert brand',
+    client: 'Selected clients in food, fragrance, home decor and lawn care',
     category: 'Social & ads',
     type: 'Client',
-    summary: 'Social posts, carousel covers and promo ads made to stop the scroll and say one thing clearly.',
-    services: 'Social posts · Carousels · Promo ads',
-    cover: sq('social-creative', 'g-1', 'Butter chicken $5.99 promo'),
+    summary: 'Social posts and paid ads from across our clients, each made to stop the scroll and say one thing clearly.',
+    services: 'Social posts · Paid social ads · Launch creative',
+    cover: img('social-creative', 'dunes-post', 1122, 1402, 'Dunes & Scents Instagram post: a gold perfume bottle among red roses and agarwood'),
     sections: [
       {
         heading: 'What we made',
-        body: ['Bold, single-message creative for feeds: one offer or idea per post, with type and imagery doing the work.'],
+        body: [
+          'One idea per post, with type and imagery doing the work. Each piece is built for the feed it runs in, from a fragrance launch to bilingual snack ads in Saudi Arabia.',
+        ],
+        images: [
+          img('social-creative', 'fit-flex-launch', 1086, 1448, 'Fit & Flex launch ad: granola and muesli packs with the Riyadh skyline, “Now in Saudi Arabia”'),
+          img('social-creative', 'fit-flex-workout', 1086, 1448, 'Fit & Flex ad on yellow: a man holding granola and muesli, “Fuel up for powerful workouts!”'),
+          img('fit-and-flex', 'gym-bag', 1086, 1448, 'Fit & Flex ad: protein chips and puffs in an open gym bag, “Your gym bag snack”'),
+          sq('wall-canvas', 'g-2', 'Wall Canvas ad: a man holding a “Good Vibes” neon sign'),
+          sq('wall-canvas', 'g-3', 'Wall Canvas ad: “Even the non living can’t resist”'),
+          sq('go-green-mowing', 'g-2', 'Go Green Mowing “Our Services” social post'),
+        ],
       },
-    ],
-    gallery: [
-      sq('social-creative', 'g-3', 'Behind the scenes carousel cover'),
-      sq('social-creative', 'g-4', 'Brownie brand ad: “Gone in 20 minutes”'),
     ],
   },
 
@@ -421,6 +477,10 @@ export const projects: Project[] = [
 /* Art-directed covers (public/work/<slug>/art.webp, 1086×1448) and taglines. */
 const art = (slug: string, alt: string): Img => img(slug, 'art', 1086, 1448, alt)
 const extras: Record<string, Pick<Project, 'art' | 'tagline'>> = {
+  'fit-and-flex': {
+    art: art('fit-and-flex', 'A navy granola pouch beside a bowl of granola, berries and dates on travertine in warm morning light'),
+    tagline: ['A better', 'start'],
+  },
   'alps-annie-ling': {
     art: art('alps-annie-ling', 'A black zip-neck jacket draped over a brushed-steel chair in a concrete studio'),
     tagline: ['Couture,', 'online'],
@@ -433,7 +493,6 @@ const extras: Record<string, Pick<Project, 'art' | 'tagline'>> = {
     art: art('little-anna', 'Patterned pastry box with strawberry tarts and cream puffs on cobalt blue'),
     tagline: ['A little', 'sweetness'],
   },
-  'desert-fox': { tagline: ['Made for the', 'festival'] },
   'dunes-and-scents': {
     art: art('dunes-and-scents', 'Five jewel-toned perfume bottles on travertine steps in front of desert dunes'),
     tagline: ['Five scents,', 'one wardrobe'],
@@ -443,7 +502,7 @@ const extras: Record<string, Pick<Project, 'art' | 'tagline'>> = {
     tagline: ['Good vibes,', 'lit up'],
   },
   'social-creative': {
-    art: art('social-creative', 'Butter chicken in a copper bowl beside stacked brownies on bright yellow'),
+    art: art('social-creative', 'Three phones showing bold colour-block posts, with matching printed proofs, on glossy red lacquer'),
     tagline: ['Stop the', 'scroll'],
   },
   sitetask: {

@@ -1995,12 +1995,17 @@ legend.field-label {
 }
 .case-sec {
   display: grid;
-  gap: 2rem var(--grid-gap);
+  gap: clamp(2.5rem, 5vw, 4rem);
   padding-block: clamp(3rem, 6vw, 5rem);
   border-top: 1px solid var(--color-graphite);
 }
+/* Title and text share a two-column row; the sticky title stays inside it and never rides over the images. */
+.case-sec__intro {
+  display: grid;
+  gap: 2rem var(--grid-gap);
+}
 @media (min-width: 1024px) {
-  .case-sec {
+  .case-sec__intro {
     grid-template-columns: 5fr 7fr;
   }
   .case-sec__head {
@@ -2036,10 +2041,33 @@ legend.field-label {
   display: grid;
   gap: var(--grid-gap);
 }
-@media (min-width: 1024px) {
-  .case-sec__images {
-    grid-column: 1 / -1;
+/* Several ads in one section: a poster grid instead of one tall stack. */
+@media (min-width: 640px) {
+  .case-sec__images--multi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+@media (min-width: 1024px) {
+  .case-sec__images--multi {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 640px) {
+  .case-sec__images--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .case-sec__images--four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.case-sec__images--multi .case-figure {
+  padding: 0;
+}
+.case-sec__images--multi .case-figure img {
+  width: 100%;
+  max-height: none;
 }
 .case-list li {
   padding-block: 0.75rem;

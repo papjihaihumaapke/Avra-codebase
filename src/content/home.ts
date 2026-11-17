@@ -5,7 +5,7 @@
 import { projects, projectBySlug, type Img, type Project } from './work'
 
 /** Featured slider, in order. */
-const featuredOrder = ['alps-annie-ling', 'dunes-and-scents', 'little-anna', 'wall-canvas', 'go-green-mowing']
+const featuredOrder = ['fit-and-flex', 'alps-annie-ling', 'dunes-and-scents', 'little-anna', 'wall-canvas', 'go-green-mowing']
 
 export const slides: Project[] = featuredOrder.flatMap((slug) => {
   const p = projectBySlug(slug)
@@ -14,10 +14,10 @@ export const slides: Project[] = featuredOrder.flatMap((slug) => {
 
 /** Short display names for the giant work index (fits one line at display size). */
 const shortNames: Record<string, string> = {
+  'fit-and-flex': 'Fit & Flex',
   'alps-annie-ling': 'ALPS',
   'go-green-mowing': 'Go Green',
   'little-anna': 'Little Anna',
-  'desert-fox': 'Desert Fox',
   'dunes-and-scents': 'Dunes & Scents',
   'wall-canvas': 'Wall Canvas',
   'social-creative': 'Social Ads',
@@ -33,13 +33,12 @@ export const indexItems = (list: Project[] = projects) =>
 
 /** Dark "always making" carousel: real pieces from the portfolio. */
 const studio: { slug: string; file: string; caption: string }[] = [
-  { slug: 'desert-fox', file: 'g-5', caption: 'Merch for a dessert stall' },
+  { slug: 'fit-and-flex', file: 'card-1', caption: 'Two flavours, two languages' },
+  { slug: 'fit-and-flex', file: 'card-2', caption: 'A gym bag snack, 12g of protein' },
   { slug: 'dunes-and-scents', file: 'g-2', caption: 'A fragrance wardrobe, in five bottles' },
   { slug: 'little-anna', file: 'g-3', caption: 'Pattern packaging for a bakery' },
   { slug: 'wall-canvas', file: 'g-2', caption: 'Neon that stops the scroll' },
-  { slug: 'social-creative', file: 'g-1', caption: 'One offer, said clearly' },
   { slug: 'go-green-mowing', file: 'g-2', caption: 'A mascot with a mower' },
-  { slug: 'desert-fox', file: 'g-8', caption: 'Stickers, sleeves and sand' },
   { slug: 'dunes-and-scents', file: 'g-5', caption: 'Cinematic single-bottle scenes' },
 ]
 export const studioCards = studio.flatMap(({ slug, file, caption }) => {

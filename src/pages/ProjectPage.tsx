@@ -104,66 +104,70 @@ export function ProjectPage() {
         <div className="case-body shell">
           {project.sections.map((s, k) => (
             <section key={s.heading} className="case-sec" aria-label={s.heading}>
-              <div className="case-sec__head">
-                <span className="label opacity-50">{String(k + 1).padStart(2, '0')}</span>
-                <h2 className="case-sec__title" data-split="">
-                  {s.heading}
-                </h2>
-              </div>
-              <div className="case-sec__body">
-                {s.body.map((p, j) => (
-                  <p key={j} className={j === 0 ? 'case-sec__lead' : 'case-sec__p'}>
-                    {p}
-                  </p>
-                ))}
-                {s.list && (
-                  <ul className="case-list">
-                    {s.list.map((x) => (
-                      <li key={x}>{x}</li>
-                    ))}
-                  </ul>
-                )}
-                {s.groups && (
-                  <div className="case-groups">
-                    {s.groups.map((g) => (
-                      <div key={g.title}>
-                        <h3 className="case-groups__title">{g.title}</h3>
-                        <ul className="case-list">
-                          {g.items.map((x) => (
-                            <li key={x}>{x}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {s.table && (
-                  <div className="case-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          {s.table.head.map((h) => (
-                            <th key={h} scope="col" className="label">
-                              {h}
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {s.table.rows.map((r) => (
-                          <tr key={r[0]}>
-                            <th scope="row">{r[0]}</th>
-                            <td className="label">{r[1]}</td>
-                            <td>{r[2]}</td>
+              <div className="case-sec__intro">
+                <div className="case-sec__head">
+                  <span className="label opacity-50">{String(k + 1).padStart(2, '0')}</span>
+                  <h2 className="case-sec__title" data-split="">
+                    {s.heading}
+                  </h2>
+                </div>
+                <div className="case-sec__body">
+                  {s.body.map((p, j) => (
+                    <p key={j} className={j === 0 ? 'case-sec__lead' : 'case-sec__p'}>
+                      {p}
+                    </p>
+                  ))}
+                  {s.list && (
+                    <ul className="case-list">
+                      {s.list.map((x) => (
+                        <li key={x}>{x}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {s.groups && (
+                    <div className="case-groups">
+                      {s.groups.map((g) => (
+                        <div key={g.title}>
+                          <h3 className="case-groups__title">{g.title}</h3>
+                          <ul className="case-list">
+                            {g.items.map((x) => (
+                              <li key={x}>{x}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {s.table && (
+                    <div className="case-table">
+                      <table>
+                        <thead>
+                          <tr>
+                            {s.table.head.map((h) => (
+                              <th key={h} scope="col" className="label">
+                                {h}
+                              </th>
+                            ))}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                        </thead>
+                        <tbody>
+                          {s.table.rows.map((r) => (
+                            <tr key={r[0]}>
+                              <th scope="row">{r[0]}</th>
+                              <td className="label">{r[1]}</td>
+                              <td>{r[2]}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
               </div>
               {s.images && s.images.length > 0 && (
-                <div className="case-sec__images">
+                <div
+                  className={`case-sec__images${s.images.length > 1 ? ' case-sec__images--multi' : ''}${s.images.length === 3 ? ' case-sec__images--three' : ''}${s.images.length === 4 ? ' case-sec__images--four' : ''}`}
+                >
                   {s.images.map((im) => (
                     <Figure key={im.src} image={im} />
                   ))}
