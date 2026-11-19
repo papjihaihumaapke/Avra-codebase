@@ -166,7 +166,7 @@ export function ProjectPage() {
               </div>
               {s.images && s.images.length > 0 && (
                 <div
-                  className={`case-sec__images${s.images.length > 1 ? ' case-sec__images--multi' : ''}${s.images.length === 3 ? ' case-sec__images--three' : ''}${s.images.length === 4 ? ' case-sec__images--four' : ''}`}
+                  className={`case-sec__images${s.images.length > 1 ? ' case-sec__images--multi' : ''}${s.images.length === 2 ? ' case-sec__images--two' : ''}${s.images.length === 3 ? ' case-sec__images--three' : ''}${s.images.length === 4 ? ' case-sec__images--four' : ''}`}
                 >
                   {s.images.map((im) => (
                     <Figure key={im.src} image={im} />

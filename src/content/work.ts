@@ -156,6 +156,10 @@ export const projects: Project[] = [
           'ALPS is a designer fashion label built around innovation. Its fabrics and finishes come with technical benefits, and every piece shows them.',
           'The range covers five worlds: Innovation, Contemporary, Accessories, Collaborations (including a collection with The Little Prince) and Vegan Skin & Personal Care. Annie has spent her career working with international brands, and she wanted a site that tells her story as a designer as well as selling her work.',
         ],
+        images: [
+          img('alps-annie-ling', 'shot-innovation', 1600, 1000, 'ALPS website: the “alps fashion innovation” section beside a red technical fabric'),
+          img('alps-annie-ling', 'shot-milestones', 1600, 1000, 'ALPS website: the Milestones page, Annie’s own writing beside a photo of a travel jacket and bag'),
+        ],
       },
       {
         heading: 'The problem',
@@ -216,7 +220,8 @@ export const projects: Project[] = [
           },
         ],
         images: [
-          img('alps-annie-ling', 'site-desktop', 1440, 900, 'ALPS product page for a water-repellent hooded windbreaker'),
+          img('alps-annie-ling', 'shot-shop', 1600, 1000, 'ALPS Innovation category page with colour, size, feature, season, gender and garment filters'),
+          img('alps-annie-ling', 'shot-product', 1600, 1000, 'ALPS product page for a graphene heating jacket: design features, colour and size pickers, and prices in CAD and HKD'),
         ],
       },
       {
@@ -240,9 +245,13 @@ export const projects: Project[] = [
         body: [
           'ALPS now has a live store that fits its brand, launched in time for the market season and the holidays. Annie can add products, post stories, set up new collaborations and change prices herself.',
         ],
+        images: [
+          img('alps-annie-ling', 'shot-m-shop', 780, 1688, 'ALPS category page on mobile with filter chips'),
+          img('alps-annie-ling', 'shot-m-product', 780, 1688, 'ALPS product page on mobile: graphene heating jacket with photo gallery'),
+          img('alps-annie-ling', 'shot-m-designer', 780, 1688, 'ALPS designer bio page on mobile'),
+        ],
       },
     ],
-    gallery: [img('alps-annie-ling', 'site-mobile', 780, 1688, 'ALPS product page on mobile')],
   },
   {
     slug: 'go-green-mowing',
