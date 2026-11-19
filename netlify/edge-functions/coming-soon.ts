@@ -220,7 +220,9 @@ ${BACKDROPS.slice(0, 2).map((s) => `<link rel="preload" as="image" href="${s}" /
 <body>
   <a class="logo" href="/" aria-label="AVRA"><img src="/brand/avra-wordmark-paper.svg" alt="AVRA" width="542" height="138" /></a>
   <nav class="nav" aria-label="Studio">
-    <a class="pill" href="mailto:hello@thinkavra.com">Email us</a>
+    <a class="pill" href="https://www.instagram.com/think.avra/" target="_blank" rel="noopener">Instagram</a>
+    <a class="pill hide-m" href="https://www.linkedin.com/company/think-avra" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="pill hide-m" href="mailto:hello@thinkavra.com">Email us</a>
     <button class="pill" type="button" aria-expanded="${wrong}" aria-controls="access">Team access</button>
   </nav>
   <form id="access" class="access" method="post" action="/__unlock"${wrong ? '' : ' hidden'}>

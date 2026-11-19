@@ -20,10 +20,8 @@ export const site = {
   /** Contact form backend: Netlify Function that emails via Resend (netlify/functions/contact.mts). */
   formEndpoint: '/api/contact',
   social: {
-    /** TODO */
-    instagram: '',
-    /** TODO */
-    linkedin: '',
+    instagram: 'https://www.instagram.com/think.avra/',
+    linkedin: 'https://www.linkedin.com/company/think-avra',
   },
   /**
    * Hero background. Set `mp4` (and optionally `webm` + `poster`) to use the brand

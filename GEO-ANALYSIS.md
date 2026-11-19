@@ -61,8 +61,8 @@ Missing (`/llms.txt` returns 404 with the site's 404 page). Google says it is no
 |---|---|
 | Wikipedia / Wikidata | None (not realistic yet; needs independent press coverage) |
 | Google Business Profile | Not found |
-| LinkedIn company page | Not linked (`site.social.linkedin` is empty) |
-| Instagram | Not linked (`site.social.instagram` is empty) |
+| LinkedIn company page | ✅ [think-avra](https://www.linkedin.com/company/think-avra), linked in footer and `sameAs` (added 18 Nov) |
+| Instagram | ✅ [@think.avra](https://www.instagram.com/think.avra/), linked in footer and `sameAs` (added 18 Nov) |
 | Clutch / DesignRush / agency directories | Not listed. These are exactly the pages AI answers cite for "best marketing agency in Vancouver" |
 | Reddit / YouTube | None |
 | Client sites crediting AVRA | Not checked; worth adding "Site by AVRA" footer links on annieling.com, gogreenmowing.ca, etc. |
