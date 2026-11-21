@@ -3,7 +3,7 @@ import { PillLink } from '../components/ui'
 import { gsap, SplitText } from '../lib/gsap'
 import { motionEnabled } from '../lib/motion'
 
-/** Centered positioning statement: one accent line, two graphite lines, an italic serif aside. */
+/** Centered positioning statement: one accent line, two graphite lines, a serif aside. */
 export function Statement() {
   const ref = useRef<HTMLElement>(null)
 
@@ -42,8 +42,10 @@ export function Statement() {
       <div className="statement__inner shell">
         <h2 id="statement-title" className="statement__title">
           <span className="text-signal">Small studio.</span>
+          {' '}
           <br />
           Senior craft.
+          {' '}
           <br />
           Real growth.
         </h2>

@@ -14,7 +14,8 @@ const pad = (n: number) => String(n).padStart(2, '0')
 /** Title broken into words, each word into letters (static markup, so SSR and no-JS read fine). */
 function SplitTitle({ text }: { text: string }) {
   return (
-    <span className="slide__title" aria-label={text}>
+    <span className="slide__title">
+      <span className="sr-only">{text}</span>
       {text.split(' ').map((word, wi) => (
         <span key={wi} className="slide__titleword" aria-hidden="true">
           {word.split('').map((ch, ci) => (

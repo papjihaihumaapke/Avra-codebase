@@ -8,6 +8,7 @@ export function Why() {
         <p className="label opacity-60">Why AVRA</p>
         <h2 id="why-title" className="why-band__title" data-split="">
           No noise.
+          {' '}
           <br />
           <span className="text-signal">Just momentum.</span>
         </h2>

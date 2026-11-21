@@ -24,6 +24,8 @@ export function PageHeader({
         {lines.map((l, i) => (
           <span key={i} className={`block ${i === 0 && accentFirst ? 'text-signal' : ''}`}>
             {l}
+            {/* Keeps a word gap when crawlers and screen readers flatten the lines. */}
+            {i < lines.length - 1 ? ' ' : null}
           </span>
         ))}
       </h1>

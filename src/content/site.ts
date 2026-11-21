@@ -41,6 +41,7 @@ export const navLinks = [
   { label: 'Work', href: '/work' },
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ] as const
 
@@ -123,6 +124,11 @@ export const routeMeta: Record<string, { title: string; description: string }> =
   '/about': {
     title: 'About — AVRA, a small studio in Vancouver',
     description: 'A small senior marketing studio in Vancouver. The people who plan your work are the people who make it.',
+  },
+  '/blog': {
+    title: 'Blog — Marketing guides for small businesses | AVRA',
+    description:
+      'Plain-language guides on brand, websites, SEO, AI search and paid marketing for small and mid-size businesses, from a Vancouver studio.',
   },
   '/contact': {
     title: 'Contact — AVRA, Vancouver marketing studio',

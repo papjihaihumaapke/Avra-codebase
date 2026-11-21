@@ -10,6 +10,7 @@ export function FinalCta() {
         <p className="label opacity-60">Next step</p>
         <h2 id="cta-title" className="cta__title" data-split="">
           Ready to grow
+          {' '}
           <br />
           without the noise?
         </h2>
