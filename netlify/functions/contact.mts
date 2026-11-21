@@ -5,7 +5,7 @@
  *
  * Environment variables (Netlify → Site configuration → Environment variables):
  *   RESEND_API_KEY  Required. Resend API key (re_…). Secret: never put it in front-end code.
- *   CONTACT_TO      Optional. Inbox(es) for enquiries, comma-separated (default mohammadhilalmalik@gmail.com)
+ *   CONTACT_TO      Optional. Inbox(es) for enquiries, comma-separated (default thinkavra.ca@gmail.com)
  *   CONTACT_FROM    Optional. Sender on the verified domain (default "AVRA <hello@thinkavra.com>")
  */
 import type { Config } from '@netlify/functions'
@@ -26,7 +26,7 @@ export default async (req: Request) => {
   if (req.method !== 'POST') return json(405, { ok: false, error: 'Method not allowed' })
 
   const { RESEND_API_KEY } = process.env
-  const CONTACT_TO = process.env.CONTACT_TO || 'mohammadhilalmalik@gmail.com'
+  const CONTACT_TO = process.env.CONTACT_TO || 'thinkavra.ca@gmail.com'
   // Any address on the verified thinkavra.com domain works as a sender.
   const CONTACT_FROM = process.env.CONTACT_FROM || `AVRA <${site.email}>`
   if (!RESEND_API_KEY) {

@@ -30,7 +30,7 @@ In `src/content/site.ts`:
 - `email`, `bookingUrl` (Calendly/Cal.com), `social.instagram`, `social.linkedin`.
 - Contact form: posts to `/api/contact`, a Netlify Function (`netlify/functions/contact.mts`) that emails each enquiry through **Resend**. In Netlify → Site configuration → Environment variables, set:
   - `RESEND_API_KEY`: your Resend API key (keep it secret; it is never sent to the browser)
-  - `CONTACT_TO` (optional): inbox(es) for enquiries, comma-separated; defaults to `mohammadhilalmalik@gmail.com`
+  - `CONTACT_TO` (optional): inbox(es) for enquiries, comma-separated; defaults to `thinkavra.ca@gmail.com`
   - `CONTACT_FROM` (optional): sender on the verified `thinkavra.com` domain; defaults to `AVRA <hello@thinkavra.com>`
 
   Each enquiry sends two branded emails (templates in `netlify/lib/emails.ts`): the full enquiry to `CONTACT_TO` (reply goes to the visitor) and a confirmation to the visitor (reply goes to hello@thinkavra.com).
